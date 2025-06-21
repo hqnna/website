@@ -21,6 +21,11 @@
             </a>
           </li>
           <li>
+            <a draggable="false" href="https://discord.gg/qZQmTM5Skk">
+              <img src="$site.asset('img/discord.svg').link()" alt="discord logo">
+            </a>
+          </li>
+          <li>
             <a draggable="false" href="mailto:me@hanna.lol">
               <img src="$site.asset('img/envelope-solid.svg').link()" alt="envelope icon">
             </a>
