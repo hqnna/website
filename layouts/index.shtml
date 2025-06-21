@@ -16,6 +16,11 @@
             </a>
           </li>
           <li>
+            <a draggable="false" href="https://github.com/hqnna">
+              <img src="$site.asset('img/github.svg').link()" alt="github logo">
+            </a>
+          </li>
+          <li>
             <a draggable="false" href="https://bsky.app/profile/hanna.sisters.gay">
               <img src="$site.asset('img/bluesky.svg').link()" alt="bluesky logo">
             </a>
