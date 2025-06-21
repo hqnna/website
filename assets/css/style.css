@@ -34,7 +34,6 @@ div.container {
   background-color: #1a1a1a;
   border-radius: 4px;
   padding: 20px;
-  width: 532px;
 }
 
 div.details {
@@ -66,12 +65,13 @@ div.details > div.about > h2 {
 ul.socials {
   display: flex;
   list-style: none;
-  margin-top: 20px;
-  justify-content: space-between;
+  margin-top: 10px;
+  width: 100%;
 }
 
 ul.socials > li {
   display: inline-block;
+  margin-right: 10px;
 }
 
 ul.socials > li > a {
@@ -83,7 +83,7 @@ ul.socials > li > a {
   text-decoration: none;
   border-radius: 2px;
   color: #efefef;
-  width: 120px;
+  width: 32px;
   height: 32px;
 }
 
@@ -93,7 +93,6 @@ ul.socials > li > a:hover {
 }
 
 ul.socials > li > a > img {
-  margin-right: 5px;
   width: 16px;
 }
 
@@ -110,15 +109,21 @@ ul.socials > li > a > img {
   div.about {
     align-items: center;
     margin-top: 15px;
-    margin-left: 0px;
+    margin-left: 0px !important;
+    width: 100%;
   }
 
   ul.socials {
     flex-direction: column;
+    margin-top: 10px !important;
+  }
+
+  ul.socials > li {
+    margin-right: 0px;
   }
 
   ul.socials > li:not(:last-child) {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
   ul.socials > li > a {
