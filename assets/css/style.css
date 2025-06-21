@@ -7,11 +7,12 @@
 
 html,
 body {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   font-family: 'Inter', serif;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
   color: #efefef;
   display: flex;
 }
@@ -100,6 +101,60 @@ span.label {
   display: none;
 }
 
+div.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #1a1a1a;
+  box-shadow: 0px 0px 4px black;
+  border-bottom: 1px solid #4a4a4a;
+  position: absolute;
+  height: 48px;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+div.navbar > div.left {
+  margin-left: 15px;
+}
+
+div.navbar > div.left > h1 {
+  font-size: 20px;
+}
+
+div.navbar > div.right {
+  margin-right: 10px;
+}
+
+div.navbar > div.left > h1 > a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+div.navbar > div.right > ul.pages {
+  margin-left: 0px;
+  list-style: none;
+  display: flex;
+}
+
+div.navbar > div.right > ul.pages > li:not(:last-child) {
+  margin-right: 10px;
+}
+
+ul.pages > li > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a2a2a;
+  border: 1px solid #4a4a4a;
+  text-decoration: none;
+  border-radius: 2px;
+  color: #efefef;
+  width: 72px;
+  height: 32px;
+}
+
 @media only screen and (max-width: 632px) {
   div.container {
     width: 80%;
@@ -142,6 +197,12 @@ span.label {
 }
 
 @media only screen and (max-width: 450px) {
+  ul.pages > li > a {
+    font-size: 12px;
+    height: 28px;
+    width: 64px;
+  }
+
   div.container > div.details > div.about > h1 {
     font-size: 20px;
   }

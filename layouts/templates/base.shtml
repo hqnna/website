@@ -8,6 +8,22 @@
     <link rel="stylesheet" href="$site.asset('css/style.css').link()">
   </head>
   <body id="main">
+    <div class="navbar">
+      <div class="left">
+        <h1>
+          <a href="$site.page('').link()">
+            <ctx :text="$site.title"></ctx>
+          </a>
+        </h1>
+      </div>
+      <div class="right">
+        <ul class="pages">
+          <li><a href="$site.page('').link()">Home</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="https://paypal.me/sapphicdoll">Donate</a></li>
+        </ul>
+      </div>
+    </div>
     <super>
   </body>
 </html>
