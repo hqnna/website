@@ -1,0 +1,42 @@
+<extend template="base.shtml">
+
+<body id="main">
+  <div class="background"></div>
+
+  <div class="container">
+    <div class="details">
+      <img src="$site.asset('img/avatar.png').link()" alt="avatar">
+      <div class="about">
+        <h1 :text="$site.title"></h1>
+        <h2 :text="$page.description"></h2>
+      </div>
+    </div>
+
+    <ul class="socials">
+      <li>
+        <a draggable="false" href="https://codeberg.org/hanna">
+          <img src="$site.asset('img/codeberg.svg').link()" alt="codeberg logo">
+          Codeberg
+        </a>
+      </li>
+      <li>
+        <a draggable="false" href="https://bsky.app/profile/hanna.sisters.gay">
+          <img src="$site.asset('img/bluesky.svg').link()" alt="bluesky logo">
+          Bluesky
+        </a>
+      </li>
+      <li>
+        <a draggable="false" href="mailto:me@hanna.lol">
+          <img src="$site.asset('img/envelope-solid.svg').link()" alt="envelope icon">
+          Contact
+        </a>
+      </li>
+      <li>
+        <a draggable="false" href="https://paypal.me/sapphicdoll">
+          <img src="$site.asset('img/heart-solid.svg').link()" alt="heart icon">
+          Donate
+        </a>
+      </li>
+    </ul>
+  </div>
+</body>

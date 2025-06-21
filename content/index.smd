@@ -1,0 +1,7 @@
+---
+.title = "Home",
+.author = "Hanna Rose",
+.description = "Just your average software engineer",
+.layout = "index.shtml",
+.date = "2025-06-20"
+---

@@ -1,0 +1,2 @@
+*.shtml linguist-language=html
+*.smd   linguist-language=markdown

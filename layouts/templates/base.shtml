@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta name="charset" content="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title :text="$page.title"></title>
+    <link rel="stylesheet" href="$site.asset('css/style.css').link()">
+  </head>
+  <body id="main">
+    <super>
+  </body>
+</html>
+
