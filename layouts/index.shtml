@@ -13,31 +13,37 @@
           <li>
             <a draggable="false" href="https://codeberg.org/hanna">
               <img src="$site.asset('img/codeberg.svg').link()" alt="codeberg logo">
+              <span class="label">Codeberg</span>
             </a>
           </li>
           <li>
             <a draggable="false" href="https://github.com/hqnna">
               <img src="$site.asset('img/github.svg').link()" alt="github logo">
+              <span class="label">GitHub</span>
             </a>
           </li>
           <li>
             <a draggable="false" href="https://bsky.app/profile/hanna.sisters.gay">
               <img src="$site.asset('img/bluesky.svg').link()" alt="bluesky logo">
+              <span class="label">Bluesky</span>
             </a>
           </li>
           <li>
             <a draggable="false" href="https://discord.gg/qZQmTM5Skk">
               <img src="$site.asset('img/discord.svg').link()" alt="discord logo">
+              <span class="label">Discord</span>
             </a>
           </li>
           <li>
             <a draggable="false" href="mailto:me@hanna.lol">
               <img src="$site.asset('img/envelope-solid.svg').link()" alt="envelope icon">
+              <span class="label">Contact</span>
             </a>
           </li>
           <li>
             <a draggable="false" href="https://paypal.me/sapphicdoll">
               <img src="$site.asset('img/heart-solid.svg').link()" alt="heart icon">
+              <span class="label">Donate</span>
             </a>
           </li>
         </ul>
