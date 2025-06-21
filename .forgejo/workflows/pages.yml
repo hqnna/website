@@ -16,7 +16,7 @@ jobs:
       - name: Build Site For Deployment
         run: zine release
       - name: Deploy To Cloudflare Pages
-        uses: https://github.com/cloudflare/wrangler-action@v3.14.1
+        uses: https://github.com/cloudflare/wrangler-action@v3.12.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
