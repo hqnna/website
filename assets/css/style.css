@@ -247,7 +247,12 @@ section.article pre > code {
   border: none;
 }
 
-section.article h1,h2,h3,h4,h5,h6 {
+section.article h1,
+section.article h2,
+section.article h3,
+section.article h4,
+section.article h5,
+section.article h6 {
   margin: 10px 0px 10px 0px;
 }
 
