@@ -11,7 +11,7 @@ body {
   height: 100vh;
   font-family: 'Inter', serif;
   background-color: #1a1a1a;
-  overflow: hidden;
+  overflow-x: hidden;
   color: #efefef;
 }
 
@@ -161,6 +161,65 @@ ul.pages > li > a {
   color: #efefef;
   width: 72px;
   height: 32px;
+}
+
+div.content {
+  justify-content: center;
+  margin-top: 96px;
+  display: grid;
+}
+
+div.content > section {
+  max-width: 48rem;
+}
+
+div.content > section:not(:last-child) {
+  margin-bottom: 48px;
+}
+
+div.content > section > h1 {
+  margin-bottom: 10px;
+}
+
+div.content > section > ul.posts {
+  list-style: none;
+}
+
+div.content > section > ul.posts > li:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+div.content > section > ul.posts > li:last-child {
+  margin-bottom: 48px;
+}
+
+div.content > section > ul.posts > li > a {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  background-color: #2a2a2a;
+  border: 1px solid #4a4a4a;
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 20px;
+}
+
+div.content > section > ul.posts > li > a > div.metadata {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+div.content > section > ul.posts > li > a > p {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+div.content > section > ul.posts > li > a > div.metadata > p {
+  background-color: #1a1a1a;
+  border: 1px solid #4a4a4a;
+  border-radius: 4px;
+  padding: 5px;
 }
 
 @media only screen and (max-width: 632px) {

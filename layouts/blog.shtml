@@ -1,4 +1,19 @@
 <extend template="base.shtml">
 
 <body id="main">
+  <div class="content">
+    <section :html="$page.content()">
+    </section>
+    <section>
+      <ul class="posts" :loop="$page.subpages()">
+        <li><a href="$loop.it.link()">
+          <div class="metadata">
+            <h1 :text="$loop.it.title"></h1>
+            <p :text="$loop.it.date.format('02/01/2006')"></p>
+          </div>
+          <p :text="$loop.it.description"></p>
+        </a></li>
+      </ul>
+    </section>
+  </div>
 </body>
