@@ -242,6 +242,7 @@ section.article code {
 }
 
 section.article pre > code {
+  padding: 0px !important;
   font-size: 11px;
   border: none;
 }
