@@ -1,0 +1,4 @@
+<extend template="base.shtml">
+
+<body id="main">
+</body>

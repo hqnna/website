@@ -19,7 +19,7 @@
       <div class="right">
         <ul class="pages">
           <li><a href="$site.page('').link()">Home</a></li>
-          <li><a href="#">Blog</a></li>
+          <li><a href="$site.page('blog').link()">Blog</a></li>
           <li><a href="https://paypal.me/sapphicdoll">Donate</a></li>
         </ul>
       </div>
