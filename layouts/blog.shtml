@@ -2,8 +2,7 @@
 
 <body id="main">
   <div class="content">
-    <section :html="$page.content()">
-    </section>
+    <section :html="$page.content()"></section>
     <section>
       <ul class="posts" :loop="$page.subpages()">
         <li><a href="$loop.it.link()">
