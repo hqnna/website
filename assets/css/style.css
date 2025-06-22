@@ -261,6 +261,11 @@ div.content > section > ul.posts > li > a > div.metadata > p {
     display: inline-block;
     margin-left: 8px;
   }
+
+  div.content {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
 @media only screen and (max-width: 450px) {
