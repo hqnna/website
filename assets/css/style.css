@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
 
 * {
   margin: 0px;
@@ -170,7 +171,7 @@ div.content {
 }
 
 div.content > section {
-  max-width: 48rem;
+  width: 48rem;
 }
 
 div.content > section:not(:last-child) {
@@ -222,6 +223,95 @@ div.content > section > ul.posts > li > a > div.metadata > p {
   padding: 5px;
 }
 
+section.article pre {
+  border-radius: 4px;
+  margin: 10px 0px 10px 0px;
+  border: 1px solid #4a4a4a;
+  background: #0a0a0a;
+  padding: 10px;
+  width: 100%;
+}
+
+section.article code {
+  background: #0a0a0a;
+  padding: 1px 5px 1px 5px;
+  border: 1px solid #4a4a4a;
+  font-family: 'JetBrains Mono', monospace;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+section.article pre > code {
+  font-size: 11px;
+  border: none;
+}
+
+section.article h1,h2,h3,h4,h5,h6 {
+  margin: 10px 0px 10px 0px;
+}
+
+section.article p {
+  margin: 10px 0px 10px 0px;
+}
+
+section.article mark {
+  background: #ffffff;
+  color: #1a1a1a;
+  padding: 0px 2px 0px 2px;
+}
+
+section.article a {
+  text-decoration: underline;
+  color: #ffffff;
+}
+
+section.article table {
+  border: 1px solid #4a4a4a;
+  background-color: #3a3a3a;
+  border-radius: 4px;
+  margin: 10px 0px 10px 0px;
+  border-spacing: 0px;
+  width: 100%;
+}
+
+section.article table th {
+  background-color: #4a4a4a;
+  padding: 5px 0px 5px 0px;
+  border: none;
+}
+
+section.article table td {
+  padding: 8px 10px 8px 10px;
+  border-bottom: 1px solid #4a4a4a;
+}
+
+section.article table tr:nth-child(even) td {
+  background-color: #2a2a2a;
+}
+
+section.article table td:not(:last-child) {
+  border-right: 1px solid #4a4a4a;
+}
+
+section.article table tr:last-child td {
+  border-bottom: none !important;
+}
+
+section.article img {
+  border: 1px solid #4a4a4a;
+  border-radius: 4px;
+  max-width: 100%;
+}
+
+section.article figure {
+  text-align: center;
+}
+
+section.article figcaption {
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
 @media only screen and (max-width: 632px) {
   div.container {
     width: 80%;
@@ -265,6 +355,11 @@ div.content > section > ul.posts > li > a > div.metadata > p {
   div.content {
     margin-left: 20px;
     margin-right: 20px;
+  }
+
+  div.content > section {
+    max-width: 48rem;
+    width: auto;
   }
 }
 

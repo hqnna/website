@@ -1,0 +1,7 @@
+<extend template="base.shtml">
+
+<body id="main">
+  <div class="content" style="margin-bottom: 48px">
+    <section class="article" :html="$page.content()"></section>
+  </div>
+</body>
