@@ -2,6 +2,14 @@
 
 <body id="main">
   <div class="content" style="margin-bottom: 48px">
+    <div class="metadata">
+      <h1 :text="$page.title"></h1>
+      <div>
+        <p :text="$page.description"></p>
+        <p :text="$page.date.format('02/01/2006')"></p>
+      </div>
+    </div>
     <section class="article" :html="$page.content()"></section>
   </div>
 </body>
+

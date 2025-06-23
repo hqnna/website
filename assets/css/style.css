@@ -217,10 +217,11 @@ div.content > section > ul.posts > li > a > p {
 }
 
 div.content > section > ul.posts > li > a > div.metadata > p {
-  background-color: #1a1a1a;
-  border: 1px solid #4a4a4a;
+  background: #1a1a1a;
   border-radius: 4px;
-  padding: 5px;
+  font-size: 12px;
+  padding: 5px 4px 4px 4px;
+  border: 1px solid #4a4a4a;
 }
 
 section.article pre {
@@ -234,7 +235,7 @@ section.article pre {
 
 section.article code {
   background: #0a0a0a;
-  padding: 1px 5px 1px 5px;
+  padding: 0px 5px 0px 5px;
   border: 1px solid #4a4a4a;
   font-family: 'JetBrains Mono', monospace;
   border-radius: 4px;
@@ -318,6 +319,27 @@ section.article figcaption {
   text-align: center;
 }
 
+section.article ol,
+section.article ul {
+  margin-left: 30px;
+}
+
+div.content > div.metadata {
+  border-bottom: 1px solid #4a4a4a;
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+}
+
+div.content > div.metadata > div {
+  justify-content: space-between;
+  margin-top: 5px;
+  display: flex;
+}
+
+div.content > div.metadata > div > p {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 @media only screen and (max-width: 632px) {
   div.container {
     width: 80%;
@@ -361,11 +383,20 @@ section.article figcaption {
   div.content {
     margin-left: 20px;
     margin-right: 20px;
+    display: block;
   }
 
   div.content > section {
     max-width: 48rem;
     width: auto;
+  }
+
+  section.article pre {
+    width: auto;
+  }
+
+  div.content > div.metadata > div {
+    display: none;
   }
 }
 
