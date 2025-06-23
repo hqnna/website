@@ -217,11 +217,19 @@ div.content > section > ul.posts > li > a > p {
 }
 
 div.content > section > ul.posts > li > a > div.metadata > p {
-  background: #1a1a1a;
-  border-radius: 4px;
-  font-size: 12px;
-  padding: 5px 4px 4px 4px;
+  padding: 0px 5px 0px 5px;
+  background-color: #1a1a1a;
   border: 1px solid #4a4a4a;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-size: 11px;
+  display: flex;
+}
+
+div.metadata > p > img {
+  margin-right: 5px;
+  height: 12px;
 }
 
 section.article pre {
