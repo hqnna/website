@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="https://unpkg.com/@highlightjs/cdn-assets@11.11.1/styles/github-dark.min.css">
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.11.1/highlight.min.js"></script>
     <link rel="stylesheet" href="$site.asset('css/style.css').link()">
-    <script defer>hljs.highlightAll()</script>
+    <script defer>
+      hljs.configure({ ignoreUnescapedHTML: true });
+      hljs.highlightAll();
+    </script>
   </head>
   <body id="main">
     <div class="navbar">
