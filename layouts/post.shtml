@@ -12,7 +12,7 @@
     <section class="article">
       <ctx :html="$page.content()"></ctx>
       <p class="copyright">
-        The content of this page is licensed under the
+        This article is licensed under the
         <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
         license.
       </p>
