@@ -26,3 +26,13 @@ wrangler pages deploy public --project=website # deploy to cloudflare
 
 This will build and deploy the website to a Cloudflare Pages project.
 
+## Content Licensing
+
+Everything under this repository is licensed under two different licenses,
+depending on content:
+
+- Source code is all licensed under the [BSD-3-Clause-Clear](LICENSE.txt) license.
+- Blog posts are all licensed under the [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) license.
+
+I would recommend reading the licenses before forking this repo.
+
