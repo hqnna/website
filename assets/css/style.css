@@ -426,11 +426,15 @@ div.content > div.metadata > div > p {
     width: auto;
   }
 
-  div.content > div.metadata > div {
+  div.content > div.metadata > div > p:first-child {
+    font-size: 12px;
+  }
+
+  div.content > div.metadata > div > p:last-child {
     display: none;
   }
 
-  div.metadata > h1 {
+  ul.posts > li > a > div.metadata > h1 {
     font-size: 16px;
   }
 
