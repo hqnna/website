@@ -209,11 +209,15 @@ div.content > section > ul.posts > li > a > div.metadata {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 div.content > section > ul.posts > li > a > p {
   color: rgba(255, 255, 255, 0.5);
+}
+
+div.content > section > ul.posts > li > a > div.metadata > h1 {
+  font-size: 1.5rem;
 }
 
 div.content > section > ul.posts > li > a > div.metadata > p {
@@ -439,7 +443,7 @@ div.content > div.metadata > div > p {
   }
 
   ul.posts > li > a > div.metadata > h1 {
-    font-size: 16px;
+    font-size: 16px !important;
   }
 
   ul.posts > li > a > p {
