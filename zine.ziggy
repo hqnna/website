@@ -6,6 +6,7 @@ Site {
     .assets_dir_path = "assets",
     .static_assets = [
       "img/background.jpg",
-      "favicon.png",
+      "img/favicon.png",
+      "favicon.ico"
     ],
 }
