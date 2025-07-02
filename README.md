@@ -33,6 +33,7 @@ depending on content:
 
 - Source code is all licensed under the [BSD-3-Clause-Clear](LICENSE.txt) license.
 - Blog posts are all licensed under the [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) license.
+- All fonts are licensed under their respective licenses.
 
 I would recommend reading the licenses before forking this repo.
 
