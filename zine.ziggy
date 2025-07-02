@@ -5,6 +5,9 @@ Site {
     .layouts_dir_path = "layouts",
     .assets_dir_path = "assets",
     .static_assets = [
+      "fonts/BerkeleyMonoVariable-Regular.woff2",
+      "fonts/Inter-Italic-VariableFont_opsz,wght.ttf",
+      "fonts/Inter-VariableFont_opsz,wght.ttf",
       "img/background.jpg",
       "img/favicon.png",
       "favicon.ico"
