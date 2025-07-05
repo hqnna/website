@@ -1,0 +1,153 @@
+---
+.title = "Securing Access",
+.description = "Securing access to Linux servers using multiple tools",
+.layout = "post.shtml",
+.author = "Hanna Rose",
+.date = "2025-07-04",
+.draft = true
+---
+
+One of the first things I do when buying any kind of root server, that being
+either a VPS or Dedicated server, is to secure access to it. I often do this
+using multiple tools, so I wanted to write a post detailing how I do that, so
+that hopefully other people getting into system administration have some ideas
+of how they can tighten security on their own server and/or cloud infrastructure.
+
+## Basic Tool Overview
+
+To get things started I will be discussing the tools I often use. There's many
+tools and approaches to do the things I do, so keep in mind this is just how I
+do it, and you can do your own research and decide how you would prefer to do
+it on your own systems within your infrastructure or setup.
+
+### VPN Tunnels
+
+One thing I often do is lock things that need to be secured or private behind a
+VPN, there's multiple VPN software that can do this, and when I say VPN I do not
+mean one that is made to enforce privacy. We're using VPNs as they are intended,
+as a way to create a private internal network for things we do not want exposed
+to the public internet, also known as an "intranet."
+
+The main VPNs I have used for my infrastructure are the following:
+
+- [Wireguard](https://wireguard.com) is an open source VPN software and protocol.
+- [Tailscale](https://tailscale.com) is a hosted VPN with an easy-to-setup approach.
+- [Netbird](https://netbird.io) is a good alternative to Tailscale with roughly the same.
+
+I'm going to be focusing on **Wireguard** in this post because that is what I
+am currently using on my server(s). So if you would prefer to use either
+Tailscale or Netbird, I would recommend looking those up and doing your own
+research on how to set them up and secure servers using them.
+
+### SSH Key Types
+
+There is many different types of SSH key types but the one I usually prefer is
+**ED25519** for multiple reasons. For one, they are supposedly quantum-safe due
+to the fact they use elliptic curve algos. For two, the keys are quite small
+allowing them to be very portable and easy to pass around to people and paste
+in terminals and files. As a simple example, here is my public key:
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEST6MgqRSn0N9ResAQ6Alt0V02GJF3XWneEDeheuQVI
+```
+
+As you can see, it is quite small, which is nice compared to RSA or other types
+of SSH keys. Of course you do not have to use ED25519, but it is the type of key
+that I would personally recommend using due to it being quantum-safe and easy to
+distribute to other users or servers.
+
+### Firewalls
+
+There is many different firewalls, the ones I have the most experience with however
+are probably UFW, Firewalld, and NixOS' built-in firewall. However for the
+more experienced there are things like Opnsense and Pfsense which are BSD distros
+made to act as firewalls themselves. If you are a beginner and want easy to setup
+firewalls, I'd recommend staying away from the distros and instead go for the other
+firewalls that you can simply install as a package on your Linux systems. For the
+more experienced though, you can go for the BSD distros as they give you more power.
+
+I will be focusing on **UFW** in this guide, but of course you do not have to use
+what I use, a lot of people dislike UFW due to how simple it is, it's not very
+flexible, and it's not really meant to be. So if you are fine with that, continue
+reading and we'll get to configuring everything my way.
+
+## Setting Up A Tunnel
+
+The first thing we're going to do is use **Wireguard** to setup a VPN tunnel so
+that our internal or private services have a private interface to use that
+isn't publicly accessible. Assuming you're on Ubuntu (or Debian) we can
+install Wireguard using the following commands on your server:
+
+```
+sudo apt update
+sudo apt install -y wireguard-tools
+```
+
+This will update the package database and then install the `wireguard-tools`
+package which contains Wireguard itself and all of the packages needed for
+it to work. After installing we'll want to setup the actual tunnel interface,
+we can do this pretty easy with Wireguard by creating a configuration file.
+
+```ini
+[Interface]
+PrivateKey = ; Private Key Here
+Address = ; Interal IP here
+ListenPort = 51820
+
+[Peer]
+PublicKey = ; Public Key Here
+AllowedIPs = ; Allowed Internal IPs
+```
+
+As you can see the server-side tunnel configuration is pretty simple, we'll go
+over filling each field as necessary over the course of this section. To get us
+started let's focus on the keys. To create a private key we want to run the
+following command on the server using a terminal:
+
+```
+wg genkey > /etc/wireguard/private.key
+```
+
+This will generate a **private** key and store it in a `private.key` file. Now
+run the following as well:
+
+```
+cat /etc/wireguard/private.key | wg pubkey > /etc/wireguard/public.key
+```
+
+This will generate a **public** key from the **private** key and store it. You
+will want to keep the public key for use later when we create a client
+config for the tunnel. So now that we have our keypair, we're going to
+fill in the interface fields of our server config, here is an example:
+
+```ini
+[Interface]
+PrivateKey = AKmIKLDtZjBru+aVJOn1WK2oXGlEFLCYlJIxEFZWa1M=
+Address = 192.168.1.1/32
+ListenPort = 51820
+```
+
+To explain what each field does in this section to make it easier to understand:
+
+- `PrivateKey` is your **server** private key, the one we just generated and stored in a file.
+- `Address` is the **internal** loopback address we want to give the Wireguard VPN tunnel.
+- `ListenPort` is the port the tunnel will listen on for VPN traffic, **it needs to be exposed**.
+
+Once these fields have been filled in we can continue to doing the `Peer`
+section of the config which is for the client, aka, your own computer; but
+first we need to create the client config locally:
+
+```ini
+[Interface]
+PrivateKey = ; Client private key here
+Address = ; Client address here
+
+[Peer]
+PublicKey = ; Server public key here
+EndPoint = ; Server public address here
+AllowedIPs = ; Server private address here
+PersistentKeepalive = 20
+```
+
+You will need to run the previous two commands mentioned earlier to generate
+keys on your own computer this time, these will be used as the client keypair.
