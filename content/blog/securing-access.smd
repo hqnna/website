@@ -151,3 +151,72 @@ PersistentKeepalive = 20
 
 You will need to run the previous two commands mentioned earlier to generate
 keys on your own computer this time, these will be used as the client keypair.
+We will start with the `Peer` section since we already have the needed details.
+A finished `Peer` section would for example look like:
+
+```ini
+[Peer]
+PublicKey = 6FNv8x0o6O7ckn47ELXtb6qDNN+5P2epJoXOFGGmtgQ=
+EndPoint = 232.111.222.151:51820
+AllowedIPs = 192.168.1.1/32
+PersistentKeepalive = 20
+```
+
+A brief description of what each field does in this section would be, for example:
+
+- `PublicKey` is the **server** public key that we generated in the earlier steps on the server.
+- `Endpoint` is the **server** public address and the VPN port, this would be the exposed one.
+- `AllowedIPs` is a netmask of allowed VPN addresses, these ones you assign to your tunnel.
+- `PersistentKeepalive` tells Wireguard how many seconds to keep a connection alive.
+
+Given this knowledge you should be able to fill in the other sections, but here are examples:
+
+```ini
+; Server Wireguard Config
+; Located in /etc/wireguard/tunnel.conf
+
+[Interface]
+PrivateKey = AKmIKLDtZjBru+aVJOn1WK2oXGlEFLCYlJIxEFZWa1M=
+Address = 192.168.1.1/32
+ListenPort = 51820
+
+[Peer]
+PublicKey = 7E+1ccNueJqkFQEkmSfDfqU1dyQbHSqoJCmOxvROBg8=
+AllowedIPs = 192.168.1.0/24
+```
+
+```ini
+; Client Wireguard Config
+; Downloaded on your own computer
+
+[Interface]
+PrivateKey = qArJ2BddEkugK0Hg/qrgepFiS3sDLMeGcsYgd74eG2o=
+Address = 192.168.1.2/32
+
+[Peer]
+PublicKey = 6FNv8x0o6O7ckn47ELXtb6qDNN+5P2epJoXOFGGmtgQ=
+EndPoint = 232.111.222.151:51820
+AllowedIPs = 192.168.1.1/32
+PersistentKeepalive = 20
+```
+
+After setting up these configuration files on their respective systems, you
+can start the tunnel on the server by running the following command, assuming
+your system has systemd for services:
+
+```
+systemctl enable --now wg-quick@tunnel.service
+```
+
+This will automatically enable the tunnel on boot and start it. Lastly, to
+connect to the tunnel on our own system, we would run the following command
+in our preferred terminal:
+
+```
+sudo wg-quick up ~/.config/wireguard/tunnel.conf
+```
+
+Assuming everything was configured correctly... you should now have a VPN setup.
+You can check to make sure by running `sudo wg show`, if the `peer` section shows
+a result showing the `last handshake` and `transfer` fields, you have connected
+and can move onto the next section.
