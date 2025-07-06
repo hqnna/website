@@ -220,3 +220,88 @@ Assuming everything was configured correctly... you should now have a VPN setup.
 You can check to make sure by running `sudo wg show`, if the `peer` section shows
 a result showing the `last handshake` and `transfer` fields, you have connected
 and can move onto the next section.
+
+## Configuring SSH Access
+
+Now that we have a working VPN tunnel we want to configure our SSH daemon to use
+it, as well as configure the types of keys we want our server to accept. To do
+this we'll be configuring the daemon in two parts, the first part will cover
+getting the `sshd` daemon to listen on our VPN subnet, and the second will be
+configuring it to only accept our preferred key type (for me, that is ED25519).
+
+### Changing The Listening Address
+
+To change the address we are listening on we will need to change two files:
+
+- `/etc/ssh/sshd_config` which contains all of the settings for the ssh server daemon.
+- `/lib/systemd/system/ssh.service` which contains the systemd service configuration.
+
+To get us started we will want to update the service to wait for the VPN tunnel to
+start and add a small amount of time before sshd starts to ensure the VPN address
+is available. To do this we will open the file and change two things, we do not need
+to modify anything else in this file.
+
+```diff
+[Unit]
+Description=OpenBSD Secure Shell server
+Documentation=man:sshd(8) man:sshd_config(5)
+- After=network.target nss-user-lookup.target auditd.service
++ After=network.target nss-user-lookup.target auditd.service wg-quick@tunnel.service
+ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+
+[Service]
++ ExecStartPre=/bin/sleep 5
+EnvironmentFile=-/etc/default/ssh
+ExecStartPre=/usr/sbin/sshd -t
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS
+ExecReload=/usr/sbin/sshd -t
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+Alias=sshd.service
+```
+
+These changes do two things: wait for the tunnel service, and add a 5 second
+sleep before starting, ensuring that the VPN tunnel starts and that the tunnel's
+address is actually available for use. After making these changes you will want
+to run the following command to make systemd aware of the changes we just made
+as it doesn't automatically see the changes unfortunately:
+
+```
+sudo systemctl daemon-reload
+```
+
+After this is done we will now be updating our ssh daemon settings to properly
+listen on the address we specified in our VPN tunnel configuration in earlier
+steps. To do this we will want to uncomment and change the `ListenAddress` line
+in the file located at `/etc/ssh/sshd_config`.
+
+```diff
+- #ListenAddress 0.0.0.0
++ ListenAddress 192.168.1.1
+```
+
+You can optionally change the port the server listens on by uncommenting and
+changing the `Port` setting, but as we are already listening on a private subnet
+it isn't strictly necessary. At last, we can restart the ssh daemon and connect
+to the server using the VPN tunnel. **Ensure you are properly connected to the
+VPN tunnel before doing this**; Run the following command to switch over:
+
+```
+systemctl restart ssh.service
+```
+
+Assuming everything worked... you can disconnect and reconnect using the VPN tunnel:
+
+```
+ssh root@192.168.1.1
+```
+
+If this worked, you have successfully setup SSH to listen on the VPN tunnel.
