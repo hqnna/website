@@ -138,13 +138,13 @@ first we need to create the client config locally:
 
 ```
 [Interface]
-PrivateKey = ; Client private key here
-Address = ; Client address here
+PrivateKey =
+Address =
 
 [Peer]
-PublicKey = ; Server public key here
-EndPoint = ; Server public address here
-AllowedIPs = ; Server private address here
+PublicKey =
+EndPoint =
+AllowedIPs =
 PersistentKeepalive = 20
 ```
 
