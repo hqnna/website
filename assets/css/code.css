@@ -1,0 +1,78 @@
+.variable,
+.variable.parameter,
+.property,
+.markup.italic {
+  color: #ffa657;
+}
+
+.string,
+.string.special,
+.string.regexp,
+.markup.heading,
+.markup.bold {
+  color: #a5d6ff;
+}
+
+.constant,
+.constant.builtin,
+.variable.builtin,
+.number,
+.boolean,
+.character {
+  color: #79c0ff;
+}
+
+.keyword,
+.keyword.operator,
+.keyword.function,
+.operator,
+.type,
+.type.builtin,
+.namespace,
+.module {
+  color: #ff7b72;
+}
+
+.function,
+.function.builtin,
+.constructor,
+.markup.link,
+.attribute {
+  color: #d2a8ff;
+}
+
+.tag,
+.tag.attribute {
+  color: #7ee787;
+}
+
+.comment {
+  color: #8b949e;
+}
+
+.punctuation,
+.punctuation.bracket,
+.punctuation.delimiter,
+.punctuation.special,
+.tag.delimiter {
+  color: #c9d1d9;
+}
+
+.text.literal,
+.markup.raw {
+  color: #c9d1d9;
+}
+
+.markup.inserted,
+.diff .inserted {
+  background-color: rgba(63, 185, 80, 0.2);
+}
+
+.markup.deleted,
+.diff .deleted {
+  background-color: rgba(248, 81, 73, 0.2);
+}
+
+.markup.changed {
+  background-color: rgba(187, 128, 9, 0.2);
+}
