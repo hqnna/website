@@ -347,8 +347,8 @@ section.article blockquote p {
 
 section.article > p.copyright {
   border-top: 1px solid rgba(255, 255, 255, 0.10);
-  padding-top: 5px;
   color: rgba(255, 255, 255, 0.25);
+  padding-top: 8px;
   font-size: 10px;
 }
 
