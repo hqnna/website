@@ -77,7 +77,7 @@ that our internal or private services have a private interface to use that
 isn't publicly accessible. Assuming you're on Ubuntu (or Debian) we can
 install Wireguard using the following commands on your server:
 
-```
+```sh
 sudo apt update
 sudo apt install -y wireguard-tools
 ```
@@ -87,15 +87,15 @@ package which contains Wireguard itself and all of the packages needed for
 it to work. After installing we'll want to setup the actual tunnel interface,
 we can do this pretty easy with Wireguard by creating a configuration file.
 
-```ini
+```
 [Interface]
-PrivateKey = ; Private Key Here
-Address = ; Interal IP here
+PrivateKey =
+Address =
 ListenPort = 51820
 
 [Peer]
-PublicKey = ; Public Key Here
-AllowedIPs = ; Allowed Internal IPs
+PublicKey =
+AllowedIPs =
 ```
 
 As you can see the server-side tunnel configuration is pretty simple, we'll go
@@ -103,14 +103,14 @@ over filling each field as necessary over the course of this section. To get us
 started let's focus on the keys. To create a private key we want to run the
 following command on the server using a terminal:
 
-```
+```sh
 wg genkey > /etc/wireguard/private.key
 ```
 
 This will generate a **private** key and store it in a `private.key` file. Now
 run the following as well:
 
-```
+```sh
 cat /etc/wireguard/private.key | wg pubkey > /etc/wireguard/public.key
 ```
 
@@ -119,7 +119,7 @@ will want to keep the public key for use later when we create a client
 config for the tunnel. So now that we have our keypair, we're going to
 fill in the interface fields of our server config, here is an example:
 
-```ini
+```
 [Interface]
 PrivateKey = AKmIKLDtZjBru+aVJOn1WK2oXGlEFLCYlJIxEFZWa1M=
 Address = 192.168.1.1/32
@@ -136,7 +136,7 @@ Once these fields have been filled in we can continue to doing the `Peer`
 section of the config which is for the client, aka, your own computer; but
 first we need to create the client config locally:
 
-```ini
+```
 [Interface]
 PrivateKey = ; Client private key here
 Address = ; Client address here
@@ -153,7 +153,7 @@ keys on your own computer this time, these will be used as the client keypair.
 We will start with the `Peer` section since we already have the needed details.
 A finished `Peer` section would for example look like:
 
-```ini
+```
 [Peer]
 PublicKey = 6FNv8x0o6O7ckn47ELXtb6qDNN+5P2epJoXOFGGmtgQ=
 EndPoint = 232.111.222.151:51820
@@ -170,7 +170,7 @@ A brief description of what each field does in this section would be, for exampl
 
 Given this knowledge you should be able to fill in the other sections, but here are examples:
 
-```ini
+```
 ; Server Wireguard Config
 ; Located in /etc/wireguard/tunnel.conf
 
@@ -184,7 +184,7 @@ PublicKey = 7E+1ccNueJqkFQEkmSfDfqU1dyQbHSqoJCmOxvROBg8=
 AllowedIPs = 192.168.1.0/24
 ```
 
-```ini
+```
 ; Client Wireguard Config
 ; Downloaded on your own computer
 
@@ -203,7 +203,7 @@ After setting up these configuration files on their respective systems, you
 can start the tunnel on the server by running the following command, assuming
 your system has systemd for services:
 
-```
+```sh
 systemctl enable --now wg-quick@tunnel.service
 ```
 
@@ -211,7 +211,7 @@ This will automatically enable the tunnel on boot and start it. Lastly, to
 connect to the tunnel on our own system, we would run the following command
 in our preferred terminal:
 
-```
+```sh
 sudo wg-quick up ~/.config/wireguard/tunnel.conf
 ```
 
@@ -273,7 +273,7 @@ address is actually available for use. After making these changes you will want
 to run the following command to make systemd aware of the changes we just made
 as it doesn't automatically see the changes unfortunately:
 
-```
+```sh
 sudo systemctl daemon-reload
 ```
 
@@ -293,13 +293,13 @@ it isn't strictly necessary. At last, we can restart the ssh daemon and connect
 to the server using the VPN tunnel. **Ensure you are properly connected to the
 VPN tunnel before doing this**; Run the following command to switch over:
 
-```
+```sh
 systemctl restart ssh.service
 ```
 
 Assuming everything worked... you can disconnect and reconnect using the VPN tunnel:
 
-```
+```sh
 ssh root@192.168.1.1
 ```
 
@@ -342,14 +342,14 @@ which is exactly what we want. Before these changes will fully take effect thoug
 delete the old keys that aren't `ed25519` keys, and finally restart the ssh daemon again. To
 delete the other ssh keys that we don't need you can use the following command:
 
-```
+```sh
 find /etc/ssh -type f -name "ssh_host_*_key*" -and -not -name "ssh_host_ed25519_key*" -exec rm {} \;
 ```
 
 This command will delete all host keys that are not of the type that we want to use. After
 this is done we can now restart the ssh daemon by running the following command from earlier:
 
-```
+```sh
 systemctl restart ssh.service
 ```
 
@@ -362,7 +362,7 @@ it being rather simple to use in comparison to other firewalls. To get started
 we will want to make sure it is installed first, so run the following commands
 on the server to install it and enable it on boot:
 
-```
+```sh
 apt update
 apt install -y ufw
 systemctl enable ufw.service
@@ -375,16 +375,16 @@ After installing we will need at minimum 2 rules in order for things to work pro
 
 To setup these rules get your server's **public** address and add it using the following command:
 
-```
-ufw allow proto udp from any to <server public ip> port 51820
+```sh
+ufw allow proto udp from any to [server public ip] port 51820
 ```
 
-Do *not* include the `<` or `>` as I know some people are going to do that and wonder why it
+Do *not* include the `[` or `]` as I know some people are going to do that and wonder why it
 did not work. This will allow incoming VPN tunnel traffic to the server, the next thing
 we need to do is allow SSH traffic in via the tunnel's address, to do that we can do the
 following command:
 
-```
+```sh
 ufw allow proto tcp from 192.168.1.0/24 to 192.168.1.1/32 port 22
 ```
 
@@ -392,7 +392,7 @@ This, as said above, will allow SSH traffic through the firewall on the VPN's su
 we have set up these rules we can now actually enable and start the firewall. This is the
 "scary" part:
 
-```
+```sh
 ufw enable
 ```
 
