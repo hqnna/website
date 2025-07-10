@@ -1,3 +1,7 @@
+# Environment Files
+.zed/
 .direnv/
+
+# Build Output
 resources/
 public/
