@@ -12,25 +12,25 @@
           <h2 :text="$page.description"></h2>
           <ul class="socials">
             <li>
-              <a draggable="false" href="https://codeberg.org/hanna">
+              <a draggable="false" href="https://link.hanna.lol/codeberg">
                 <img src="$site.asset('img/codeberg.svg').link()" alt="codeberg logo">
                 <span class="label">Codeberg</span>
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://github.com/hqnna">
+              <a draggable="false" href="https://link.hanna.lol/github">
                 <img src="$site.asset('img/github.svg').link()" alt="github logo">
                 <span class="label">GitHub</span>
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://bsky.app/profile/hanna.sisters.gay">
+              <a draggable="false" href="https://link.hanna.lol/bluesky">
                 <img src="$site.asset('img/bluesky.svg').link()" alt="bluesky logo">
                 <span class="label">Bluesky</span>
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://discord.gg/qZQmTM5Skk">
+              <a draggable="false" href="https://link.hanna.lol/emoji">
                 <img src="$site.asset('img/discord.svg').link()" alt="discord logo">
                 <span class="label">Discord</span>
               </a>
@@ -42,7 +42,7 @@
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://paypal.me/sapphicdoll">
+              <a draggable="false" href="https://link.hanna.lol/paypal">
                 <img src="$site.asset('img/heart-solid.svg').link()" alt="heart icon">
                 <span class="label">Donate</span>
               </a>
