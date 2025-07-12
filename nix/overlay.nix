@@ -1,13 +1,13 @@
 new: old: {
   zine-ssg = old.stdenv.mkDerivation (self: {
     pname = "zine-ssg";
-    version = "0.10.2";
+    version = "0.10.3";
     doBuild = false;
     doCheck = false;
 
     src = builtins.fetchTarball {
       url = "https://github.com/kristoff-it/zine/releases/download/v${self.version}/x86_64-linux-musl.tar.xz";
-      sha256 = "0ncgz2ybxp70v9sx1spxl262krn7v8dl7dvrws8ckivi3iaf6aa8";
+      sha256 = "1y7dklv4mg4z8mbk564zjsiqfiincrjnalsyh18rn5aj46iwr7iw";
     };
 
     installPhase = ''
