@@ -3,7 +3,7 @@
     utils.url = "github:numtide/flake-utils/main";
   };
 
-  outputs = { self, nixpkgs, utils }:
+  outputs = { nixpkgs, utils, ... }:
     utils.lib.eachDefaultSystem(system:
       let
         pkgs = import nixpkgs {
@@ -16,4 +16,3 @@
         };
       });
 }
-
