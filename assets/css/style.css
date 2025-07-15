@@ -7,7 +7,7 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  font-family: 'Inter', serif;
+  font-family: "Inter", serif;
   background-color: #1a1a1a;
   overflow-x: hidden;
   color: #efefef;
@@ -22,7 +22,7 @@ div.center {
 }
 
 div.background {
-  background-image: url('/img/background.jpg');
+  background-image: url("/img/background.jpg");
   background-position: center;
   filter: saturate(0%);
   position: absolute;
@@ -238,17 +238,31 @@ section.article pre {
   border-radius: 4px;
   margin: 10px 0px 10px 0px;
   border: 1px solid #4a4a4a;
-  overflow-x: scroll;
+  overflow-x: overlay;
   background: #0a0a0a;
   padding: 10px;
   width: 100%;
+}
+
+section.article pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+section.article pre::-webkit-scrollbar-track {
+  background-color: #1a1a1a;
+  border-top: 1px solid #4a4a4a;
+  border-radius: 0px 0px 4px 4px;
+}
+
+section.article pre::-webkit-scrollbar-thumb {
+  background-color: #4a4a4a;
 }
 
 section.article code {
   background: #0a0a0a;
   padding: 0px 5px 0px 5px;
   border: 1px solid #4a4a4a;
-  font-family: 'Berkeley Mono', monospace;
+  font-family: "Berkeley Mono", monospace;
   border-radius: 4px;
   font-size: 11px;
 }
@@ -346,7 +360,7 @@ section.article blockquote p {
 }
 
 section.article > p.copyright {
-  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.25);
   padding-top: 8px;
   font-size: 10px;
@@ -468,4 +482,3 @@ div.content > div.metadata > div > p {
     font-size: 15px;
   }
 }
-
