@@ -154,6 +154,7 @@ ul.pages > li > a {
   justify-content: center;
   background-color: #2a2a2a;
   border: 1px solid #4a4a4a;
+  font-size: 0.9rem;
   text-decoration: none;
   border-radius: 2px;
   color: #efefef;
@@ -211,10 +212,11 @@ div.content > section > ul.posts > li > a > div.metadata {
 
 div.content > section > ul.posts > li > a > p {
   color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
 }
 
 div.content > section > ul.posts > li > a > div.metadata > h1 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 div.content > section > ul.posts > li > a > div.metadata > p {
@@ -224,8 +226,8 @@ div.content > section > ul.posts > li > a > div.metadata > p {
   justify-content: center;
   align-items: center;
   border-radius: 4px;
+  font-size: 0.75rem;
   max-height: 23px;
-  font-size: 11px;
   display: flex;
 }
 
@@ -280,10 +282,15 @@ section.article h4,
 section.article h5,
 section.article h6 {
   margin: 25px 0px 10px 0px;
+  align-items: center;
+  display: flex;
 }
 
-section.article p {
+section.article p,
+section.article ol,
+section.article ul {
   margin: 10px 0px 10px 0px;
+  font-size: 0.85rem;
 }
 
 section.article mark {
@@ -383,8 +390,13 @@ div.content > div.metadata > div {
   display: flex;
 }
 
+div.content > div.metadata > h1 {
+  font-size: 1.5rem;
+}
+
 div.content > div.metadata > div > p {
   color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
 }
 
 @media only screen and (max-width: 632px) {
