@@ -1,6 +1,6 @@
 Website
-![License](https://img.shields.io/badge/license-BSD--3--Clause--Clear-2b7fff)
-![Activity](https://img.shields.io/gitea/last-commit/hanna/website?gitea_url=https%3A%2F%2Fcodeberg.org&color=2b7fff)
+![License](https://badge.hanna.lol/license/BSD-3-Clause-Clear)
+![Activity](https://badge.hanna.lol/activity/hanna/website)
 ===============================================================================
 
 My personal website and blog, made using the [Zine](https://zine-ssg.io/) static
@@ -36,4 +36,3 @@ depending on content:
 - All fonts are licensed under their respective licenses.
 
 I would recommend reading the licenses before forking this repo.
-
