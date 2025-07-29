@@ -18,7 +18,7 @@ jobs:
         uses: https://code.forgejo.org/actions/checkout@v4
       - name: Setup Zine Toolchain
         uses: https://github.com/kristoff-it/setup-zine@v1
-        with: { version: "v0.11.0" }
+        with: { version: "v0.11.1" }
       - name: Build Site For Deployment
         run: zine release
       - name: Deploy To Cloudflare Pages
