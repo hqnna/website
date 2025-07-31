@@ -1,6 +1,7 @@
 # Environment Files
 .zed/
 .direnv/
+.crush/
 
 # Build Output
 resources/
