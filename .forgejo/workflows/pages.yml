@@ -25,6 +25,9 @@ jobs:
       - name: Install Nix Toolchain
         uses: https://github.com/DeterminateSystems/nix-installer-action@v19
       - name: Build Site For Deployment
-        run: nix develop --command zine release
+        run: nix develop -c zine release
       - name: Deploy To Cloudflare Pages
-        run: nix develop --command npx wrangler pages deploy public --project-name=website
+        run: |
+          nix develop -c npx wrangler pages deploy public \
+            --project-name=website \
+            --commit-dirty=true
