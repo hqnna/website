@@ -12,7 +12,10 @@
         };
       in {
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ zine-ssg ];
+          nativeBuildInputs = with pkgs; [
+            nodejs_latest
+            zine-ssg
+          ];
         };
       });
 }
