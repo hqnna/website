@@ -1,12 +1,12 @@
-Website
+website
 ![License](https://badge.hanna.lol/license/BSD-3-Clause-Clear)
-![Activity](https://badge.hanna.lol/activity/hanna/website)
+![Activity](https://badge.hanna.lol/build/website)
 ===============================================================================
 
 My personal website and blog, made using the [Zine](https://zine-ssg.io/) static
 site generator.
 
-## Deploying My Website
+## Deploying To Cloudflare
 
 I do not deploy the website manually for multiple reasons, instead I have CI
 setup with Cloudflare's Wrangler CLI to automatically build and deploy any
@@ -26,7 +26,7 @@ wrangler pages deploy public --project=website # deploy to cloudflare
 
 This will build and deploy the website to a Cloudflare Pages project.
 
-## Content Licensing
+## Licensing Of Content
 
 Everything under this repository is licensed under two different licenses,
 depending on content:
