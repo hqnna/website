@@ -18,7 +18,7 @@
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://link.hanna.lol/sourcehut">
+              <a draggable="false" href="https://link.hanna.lol/srht">
                 <img src="$site.asset('img/sourcehut.svg').link()" alt="sourcehut logo">
                 <span class="label">Sourcehut</span>
               </a>
