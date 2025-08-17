@@ -1,0 +1,13 @@
+image: nixos/unstable
+packages: [nixos.nodejs_latest]
+
+secrets:
+  - 61535dff-321b-42d6-8d8e-3bd9a5016340
+  - 68a052dc-1cc2-4670-a62b-9dcf36642157
+
+environment:
+  NIX_CONFIG: experimental-features = nix-command flakes
+
+tasks:
+  - build: nix develop -c zine release
+  - deploy: .builds/deploy.sh
