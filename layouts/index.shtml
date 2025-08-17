@@ -12,38 +12,32 @@
           <h2 :text="$page.description"></h2>
           <ul class="socials">
             <li>
-              <a draggable="false" href="https://link.hanna.lol/codeberg">
-                <img src="$site.asset('img/codeberg.svg').link()" alt="codeberg logo">
-                <span class="label">Codeberg</span>
-              </a>
-            </li>
-            <li>
               <a draggable="false" href="https://link.hanna.lol/github">
                 <img src="$site.asset('img/github.svg').link()" alt="github logo">
                 <span class="label">GitHub</span>
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://link.hanna.lol/bluesky">
-                <img src="$site.asset('img/bluesky.svg').link()" alt="bluesky logo">
-                <span class="label">Bluesky</span>
+              <a draggable="false" href="https://link.hanna.lol/sourcehut">
+                <img src="$site.asset('img/sourcehut.svg').link()" alt="sourcehut logo">
+                <span class="label">Sourcehut</span>
               </a>
             </li>
             <li>
               <a draggable="false" href="https://link.hanna.lol/emoji">
-                <img src="$site.asset('img/discord.svg').link()" alt="discord logo">
+                <img src="$site.asset('img/emojis.svg').link()" alt="emoji icon">
                 <span class="label">Discord</span>
               </a>
             </li>
             <li>
               <a draggable="false" href="mailto:me@hanna.lol">
-                <img src="$site.asset('img/envelope-solid.svg').link()" alt="envelope icon">
+                <img src="$site.asset('img/email.svg').link()" alt="email icon">
                 <span class="label">Contact</span>
               </a>
             </li>
             <li>
               <a draggable="false" href="https://link.hanna.lol/paypal">
-                <img src="$site.asset('img/heart-solid.svg').link()" alt="heart icon">
+                <img src="$site.asset('img/heart.svg').link()" alt="heart icon">
                 <span class="label">Donate</span>
               </a>
             </li>

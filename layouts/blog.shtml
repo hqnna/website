@@ -9,7 +9,7 @@
           <div class="metadata">
             <h1 :text="$loop.it.title"></h1>
             <p>
-              <img src="$site.asset('img/calendar-solid.svg').link()" alt="calendar icon">
+              <img src="$site.asset('img/calendar.svg').link()" alt="calendar icon">
               <ctx :text="$loop.it.date.format('02/01/2006')"></ctx>
             </p>
           </div>
