@@ -9,5 +9,5 @@ environment:
   NIX_CONFIG: experimental-features = nix-command flakes
 
 tasks:
-  - build: nix develop -c zine release
-  - deploy: .builds/deploy.sh
+  - build: cd $HOME/website && nix develop -c zine release
+  - deploy: cd $HOME/website && .builds/deploy.sh
