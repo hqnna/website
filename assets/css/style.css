@@ -415,6 +415,10 @@ section.article {
     }
   }
 
+  & > hr {
+    border: 1px solid var(--border);
+  }
+
   & code {
     background: var(--bg-code);
     padding: 0px var(--space-xs) 0px var(--space-xs);
