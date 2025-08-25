@@ -8,6 +8,7 @@ on:
       - assets/**/*
       - content/**/*.smd
       - layouts/**/*.shtml
+      - .github/workflows/*.yml
       - nix/overlay.nix
       - flake.lock
       - zine.ziggy
