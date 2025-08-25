@@ -1,78 +1,146 @@
-.variable,
-.variable.parameter,
+/* Carbonfox theme CSS for code highlighting */
+
+/* Variables and Identifiers */
+.variable {
+  color: #dfdfe0; /* variable = pal.white.base */
+}
+
+.variable.parameter {
+  color: #33b1ff; /* ident = pal.cyan.base */
+}
+
 .property,
-.markup.italic {
-  color: #ffa657;
+.field {
+  color: #78a9ff; /* field = pal.blue.base */
 }
 
+/* Strings and Regex */
 .string,
-.string.special,
-.string.regexp,
-.markup.heading,
-.markup.bold {
-  color: #a5d6ff;
+.string.special {
+  color: #25be6a; /* string = pal.green.base */
 }
 
+.string.regexp {
+  color: #08bdba; /* regex = pal.yellow.bright */
+}
+
+/* Constants, Numbers, and Booleans */
 .constant,
-.constant.builtin,
-.variable.builtin,
-.number,
-.boolean,
-.character {
-  color: #79c0ff;
+.boolean {
+  color: #3ddbd9; /* const = pal.orange.bright */
 }
 
+.constant.builtin {
+  color: #3ddbd9; /* builtin2 = pal.orange.bright */
+}
+
+.variable.builtin {
+  color: #ee5396; /* builtin0 = pal.red.base */
+}
+
+.number,
+.character {
+  color: #3ddbd9; /* number = pal.orange.base */
+}
+
+/* Keywords and Statements */
 .keyword,
-.keyword.operator,
 .keyword.function,
-.operator,
+.statement {
+  color: #be95ff; /* keyword/statement = pal.magenta.base */
+}
+
+.keyword.operator {
+  color: #be95ff; /* conditional = pal.magenta.bright */
+}
+
+/* Types and Modules */
 .type,
 .type.builtin,
 .namespace,
 .module {
-  color: #ff7b72;
+  color: #08bdba; /* type = pal.yellow.base */
 }
 
+.type.builtin {
+  color: #33b1ff; /* builtin1 = pal.cyan.bright */
+}
+
+/* Functions and Constructors */
 .function,
 .function.builtin,
-.constructor,
-.markup.link,
-.attribute {
-  color: #d2a8ff;
+.constructor {
+  color: #78a9ff; /* func = pal.blue.bright */
 }
 
-.tag,
-.tag.attribute {
-  color: #7ee787;
-}
-
-.comment {
-  color: #8b949e;
+/* Operators and Punctuation */
+.operator {
+  color: #c6c8cc; /* operator = spec.fg2 */
 }
 
 .punctuation,
 .punctuation.bracket,
 .punctuation.delimiter,
-.punctuation.special,
+.punctuation.special {
+  color: #c6c8cc; /* bracket = spec.fg2 */
+}
+
+/* Tags and Attributes */
+.tag {
+  color: #08bdba; /* type = pal.yellow.base */
+}
+
+.tag.attribute,
+.attribute {
+  color: #78a9ff; /* field = pal.blue.base */
+}
+
 .tag.delimiter {
-  color: #c9d1d9;
+  color: #c6c8cc; /* bracket = spec.fg2 */
 }
 
-.text.literal,
+/* Markup */
+.markup.heading {
+  color: #78a9ff; /* func = pal.blue.bright (titles) */
+}
+
+.markup.bold {
+  color: #25be6a; /* string = pal.green.base */
+}
+
+.markup.italic {
+  color: #dfdfe0; /* variable = pal.white.base */
+}
+
+.markup.link {
+  color: #78a9ff; /* func = pal.blue.bright */
+}
+
 .markup.raw {
-  color: #c9d1d9;
+  color: #f2f4f8; /* fg1 = Default fg */
 }
 
+/* Comments */
+.comment {
+  color: #898989; /* comment = pal.comment */
+}
+
+/* Text Literals */
+.text.literal {
+  color: #f2f4f8; /* fg1 = Default fg */
+}
+
+/* Diff highlighting */
 .markup.inserted,
 .diff .inserted {
-  background-color: rgba(63, 185, 80, 0.2);
+  background-color: rgba(37, 190, 106, 0.15); /* green blend */
 }
 
 .markup.deleted,
 .diff .deleted {
-  background-color: rgba(248, 81, 73, 0.2);
+  background-color: rgba(238, 83, 150, 0.15); /* red blend */
 }
 
 .markup.changed {
-  background-color: rgba(187, 128, 9, 0.2);
+  background-color: rgba(120, 169, 255, 0.15); /* blue blend */
 }
