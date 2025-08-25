@@ -1,6 +1,6 @@
 website
-![License](https://badge.hanna.lol/license/BSD-3-Clause-Clear)
-![Activity](https://badge.hanna.lol/build/website)
+![License](https://img.shields.io/github/license/hqnna/website?labelColor=334155&color=3b82f6)
+![Activity](https://img.shields.io/github/last-commit/hqnna/website?labelColor=334155&color=3b82f6)
 ===============================================================================
 
 My personal website and blog, made using the [Zine](https://zine-ssg.io/) static
