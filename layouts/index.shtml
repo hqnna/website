@@ -12,33 +12,39 @@
           <h2 :text="$page.description"></h2>
           <ul class="socials">
             <li>
-              <a draggable="false" href="https://link.hanna.lol/github">
+              <a draggable="false" href="https://github.com/hqnna">
                 <img src="$site.asset('img/github.svg').link()" alt="github logo">
                 <span class="label">GitHub</span>
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://link.hanna.lol/srht">
-                <img src="$site.asset('img/sourcehut.svg').link()" alt="sourcehut logo">
-                <span class="label">Sourcehut</span>
+              <a draggable="false" href="https://discord.gg/qZQmTM5Skk">
+                <img src="$site.asset('img/emojis.svg').link()" alt="github logo">
+                <span class="label">Emojis</span>
               </a>
             </li>
             <li>
-              <a draggable="false" href="https://link.hanna.lol/emoji">
-                <img src="$site.asset('img/emojis.svg').link()" alt="emoji icon">
-                <span class="label">Discord</span>
+              <a draggable="false" href="https://steamcommunity.com/id/sapphicdoll">
+                <img src="$site.asset('img/game.svg').link()" alt="github logo">
+                <span class="label">Steam</span>
+              </a>
+            </li>
+            <li>
+              <a draggable="false" href="https://paypal.me/sapphicdoll">
+                <img src="$site.asset('img/heart.svg').link()" alt="github logo">
+                <span class="label">Donate</span>
+              </a>
+            </li>
+            <li>
+              <a draggable="false" href="$site.asset('files/public-key.txt').link()">
+                <img src="$site.asset('img/key.svg').link()" alt="github logo">
+                <span class="label">GPG Key</span>
               </a>
             </li>
             <li>
               <a draggable="false" href="mailto:me@hanna.lol">
-                <img src="$site.asset('img/email.svg').link()" alt="email icon">
+                <img src="$site.asset('img/email.svg').link()" alt="github logo">
                 <span class="label">Contact</span>
-              </a>
-            </li>
-            <li>
-              <a draggable="false" href="https://link.hanna.lol/paypal">
-                <img src="$site.asset('img/heart.svg').link()" alt="heart icon">
-                <span class="label">Donate</span>
               </a>
             </li>
           </ul>
