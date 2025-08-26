@@ -184,14 +184,19 @@ ul.socials {
       height: 32px;
       transition: all 0.2s ease;
 
+      & > img {
+        width: 16px;
+        transition: filter 0s;
+      }
+
       &:hover {
         background-color: var(--bg-tertiary);
         border-color: var(--accent-blue);
         color: var(--accent-blue);
       }
 
-      & > img {
-        width: 16px;
+      &:hover > img {
+        filter: brightness(0) saturate(100%) invert(70%) sepia(37%) saturate(4975%) hue-rotate(200deg) brightness(106%) contrast(101%);
       }
     }
   }
