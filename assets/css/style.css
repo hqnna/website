@@ -524,11 +524,13 @@ section.article {
 
   & a {
     text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 2px;
     color: var(--accent-blue);
-    transition: color 0.2s ease;
+    transition: text-decoration-color 0.25s ease-out;
 
     &:hover {
-      color: var(--accent-cyan);
+      text-decoration-color: var(--accent-blue);
     }
   }
 
