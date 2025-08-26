@@ -1,6 +1,6 @@
 website
 ![license](https://img.shields.io/github/license/hqnna/website?labelColor=334155&color=3b82f6)
-![status](https://img.shields.io/github/actions/workflow/status/hqnna/website/cloudflare.yml?labelColor=334155&color=3b82f6)
+![status](https://img.shields.io/github/actions/workflow/status/hqnna/website/pages.yml?labelColor=334155&color=3b82f6)
 ===============================================================================
 
 My personal website and blog, made using the [Zine](https://zine-ssg.io/) static
