@@ -28,7 +28,7 @@ This all being said, let's get started.
 Just like your terminal, or text editor, AI is a tool. It can provide helpful
 information and help with repetitive tasks such as writing loops or boilerplate,
 and can sometimes act as a rubber duck when needing to debug or think something
-through. It has helped me do figure out things that I didn't understand before.
+through. It has helped me to figure out things that I didn't understand before.
 For example, I have been studying [bytecode](https://en.wikipedia.org/wiki/Bytecode)
 and for the longest time didn't understand how function calls, recursion and loops
 worked when it comes to something like bytecode which is more linear. Claude was
