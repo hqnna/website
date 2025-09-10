@@ -21,8 +21,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5.0.0
-      - name: Setup nix toolchain
-        uses: determinatesystems/nix-installer-action@v19
+      - name: Setup lix toolchain
+        uses: samueldr/lix-gha-installer-action@v2025-02-26.prerelease
+        with: { extra_nix_config: 'experimental-features = nix-command flakes' }
       - name: Setup nix actions cache
         uses: determinatesystems/magic-nix-cache-action@v13
       - name: Build website with zine
@@ -40,7 +41,7 @@ jobs:
     steps:
       - name: Download static files
         uses: actions/download-artifact@v5.0.0
-        with: { name: "website-${{ github.sha }}", path: public }
+        with: { name: 'website-${{ github.sha }}', path: public }
       - name: Deploy to Cloudflare pages
         uses: cloudflare/wrangler-action@v3.14.1
         with:
