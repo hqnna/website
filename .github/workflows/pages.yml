@@ -23,8 +23,7 @@ jobs:
         uses: actions/checkout@v5.0.0
       - name: Setup lix toolchain
         uses: samueldr/lix-gha-installer-action@v2025-02-26.prerelease
-        with: { extra_nix_config: 'experimental-features = nix-command flakes' }
-      - name: Setup nix actions cache
+      - name: Setup lix store cache
         uses: determinatesystems/magic-nix-cache-action@v13
       - name: Build website with zine
         run: nix develop -c zine release
