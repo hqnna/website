@@ -1,0 +1,153 @@
+---
+import Page from '../../layouts/Page.astro';
+
+const posts = (await Astro.glob('../../content/*.mdx')).sort((a, b) => {
+  const firstDate = new Date(a.frontmatter.date).valueOf()
+  const secondDate = new Date(b.frontmatter.date).valueOf();
+  return firstDate - secondDate;
+});
+
+const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
+  month: '2-digit',
+  day: '2-digit',
+  year: 'numeric'
+});
+---
+
+<Page title="Blog" desc="">
+  <div class="content">
+    <section>
+      <h1>Here be dragons.</h1>
+      <p>
+        Welcome to my blog, this is where I'll post and share anything that I find even
+        a slight bit interesting for other people to read about. I can't promise that I
+        will post consistently or often, but I will promise anything here will have real
+        effort put into it. So, hope you enjoy my ramblings and insanity, lol.
+      </p>
+    </section>
+    <section>
+      <ul class="posts">
+        {posts.filter((p) => !p.frontmatter.draft).map((post) => (
+        <li><a href={`/blog/${post.file.split('/').pop().replace('.mdx', '')}`}>
+          <div class="metadata">
+            <h1>{post.frontmatter.title}</h1>
+            <p>
+              <img src="/img/calendar.svg" alt="calendar icon">
+              {fmtDate(post.frontmatter.date)}
+            </p>
+          </div>
+          <p>{post.frontmatter.summary}</p>
+        </a></li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Page>
+
+<style>
+  .content {
+    display: grid;
+    justify-content: center;
+    margin-top: 64px;
+    padding-top: var(--space-lg);
+
+    & > section {
+      width: 48rem;
+
+      &:not(:last-child) {
+        margin-bottom: var(--space-2xl);
+      }
+
+      & > h1 {
+        margin-bottom: var(--space-sm);
+        color: var(--text-primary);
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      display: block;
+      margin-left: var(--space-md);
+      margin-right: var(--space-md);
+      margin-top: 48px;
+      padding-top: var(--space-md);
+      max-width: calc(100vw - 2 * var(--space-md));
+
+      & > section {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+
+  .posts {
+    list-style: none;
+
+    & > li {
+      &:not(:last-child) {
+        margin-bottom: var(--space-lg);
+      }
+
+      & > a {
+        display: flex;
+        flex-direction: column;
+        padding: var(--space-lg);
+        text-decoration: none;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--text-primary);
+
+        &:hover {
+          background-color: var(--bg-tertiary);
+          border-color: var(--accent-blue);
+        }
+
+        .metadata {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: var(--space-xs);
+
+          & > h1 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+          }
+
+          & > p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 var(--space-xs);
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.75rem;
+            max-height: 23px;
+            color: var(--text-muted);
+
+            & > img {
+              margin-right: var(--space-xs);
+              height: 12px;
+            }
+          }
+        }
+
+        & > p {
+          color: var(--text-muted);
+          font-size: var(--font-size);
+        }
+
+        @media only screen and (max-width: 800px) {
+          padding: var(--space-sm) !important;
+
+          & > .metadata > h1 {
+            font-size: 16px !important;
+          }
+
+          & > p {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+</style>
