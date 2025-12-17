@@ -1,5 +1,233 @@
 ---
 import Page from "../layouts/Page.astro";
+
+const links = [
+  {
+    name: 'GitLab',
+    icon: 'gitlab',
+    url: 'https://gitlab.com/hqnna',
+  },
+  {
+    name: 'Emojis',
+    icon: 'emoji',
+    url: 'https://discord.gg/qZQmTM5Skk',
+  },
+  {
+    name: 'Steam',
+    icon: 'games',
+    url: 'https://steamcommunity.com/id/sapphicdoll',
+  },
+  {
+    name: 'GPG Key',
+    icon: 'user-lock',
+    url: '/files/key.txt',
+  },
+  {
+    name: 'Resume',
+    icon: 'file-user',
+    url: '/files/resume.pdf',
+  },
+  {
+    name: 'Contact',
+    icon: 'envelope',
+    url: 'mailto:me@hanna.lol',
+  },
+  {
+    name: 'Donate',
+    icon: 'heart',
+    url: 'https://liberapay.com/hqnna',
+  }
+];
 ---
 
-<Page title="Hanna Rose" desc="Just your average software engineer"></Page>
+<Page title="Hanna Rose" desc="Just your average software engineer">
+  <div class="background"></div>
+
+  <div class="center">
+    <div class="container">
+      <div class="details">
+        <img src="/img/avatar.png" alt="avatar">
+        <div class="about">
+          <h1>Hanna Rose</h1>
+          <h2>Just your average software engineer</h2>
+          <ul class="socials">
+            {links.map(link => (
+              <li>
+                <a draggable="false" href={link.url}>
+                  <img src={`/img/${link.icon}.svg`} alt={`${link.name} icon`}>
+                  <span class="label">{link.name}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</Page>
+
+<style>
+  div.background {
+    background-image: url("/img/background.jpg");
+    background-position: center;
+    filter: saturate(0%);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+    left: 0;
+    top: 0;
+  }
+
+  div.center {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  div.container {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--border);
+    background-color: var(--bg-primary);
+    border-radius: var(--radius);
+    padding: var(--space-lg);
+    z-index: 1;
+    max-width: 90%;
+
+    @media only screen and (max-width: 800px) {
+      box-sizing: border-box;
+      width: 95%;
+      margin: 0;
+    }
+  }
+
+  div.details {
+    flex-direction: row;
+    display: flex;
+
+    & > img {
+      width: 128px;
+      height: 128px;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius);
+      pointer-events: none;
+      border: 1px solid var(--border);
+    }
+
+    @media only screen and (max-width: 800px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  div.about {
+    display: flex;
+    margin-left: var(--space-lg);
+    flex-direction: column;
+    justify-content: center;
+
+    & > h1 {
+      color: var(--text-primary);
+    }
+
+    & > h2 {
+      font-weight: 200;
+      color: var(--text-muted);
+    }
+
+    @media only screen and (max-width: 800px) {
+      align-items: center;
+      margin-top: var(--space-md);
+      margin-left: 0px !important;
+      width: 100%;
+
+      & > h1 {
+        @media only screen and (max-width: 475px) {
+          font-size: 20px;
+        }
+      }
+
+      & > h2 {
+        @media only screen and (max-width: 475px) {
+          font-size: 15px;
+        }
+      }
+    }
+  }
+
+  ul.socials {
+    display: flex;
+    list-style: none;
+    margin-top: var(--space-md);
+    width: 100%;
+
+    & > li {
+      display: inline-block;
+      margin-right: var(--space-sm);
+
+      & > a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border);
+        text-decoration: none;
+        border-radius: var(--radius-sm);
+        color: var(--text-secondary);
+        width: 32px;
+        height: 32px;
+
+        & > img {
+          width: 16px;
+        }
+
+        &:hover {
+          background-color: var(--bg-tertiary);
+          border-color: var(--accent-blue);
+          color: var(--accent-blue);
+        }
+
+        &:hover > img {
+          filter:
+            brightness(0)
+            saturate(100%)
+            invert(70%)
+            sepia(37%)
+            saturate(4975%)
+            hue-rotate(200deg)
+            brightness(106%)
+            contrast(101%);
+        }
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      flex-direction: column;
+      margin-top: var(--space-md) !important;
+
+      & > li {
+        margin-right: 0px;
+
+        &:not(:last-child) {
+          margin-bottom: var(--space-sm);
+        }
+
+        & > a {
+          width: 100%;
+          height: 48px;
+        }
+      }
+    }
+  }
+
+  span.label {
+    display: none;
+
+    @media only screen and (max-width: 800px) {
+      display: inline-block;
+      margin-left: 8px;
+    }
+  }
+</style>
