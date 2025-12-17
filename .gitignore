@@ -1,0 +1,26 @@
+# Dependency files
+node_modules/
+
+# Build output
+.netlify/
+.output/
+.vercel/
+.cache/
+.astro/
+dist/
+
+# Environment files
+.env.*
+.env
+
+# Editor files
+.DS_Store
+.vscode/
+.idea/
+.zed/
+
+# Temporary files
+*.tsbuildinfo
+*.bak
+*.tmp
+*.log
