@@ -1,0 +1,101 @@
+---
+const { title, desc } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{title}</title>
+    <meta name="description" content={desc}>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/fonts.css">
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="left">
+        <h1><a href="/">Hanna Rose</a></h1>
+      </div>
+      <div class="right">
+        <ul class="pages">
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="https://liberapay.com/hqnna">Donate</a></li>
+        </ul>
+      </div>
+    </div>
+    <slot />
+  </body>
+</html>
+
+<style>
+  div.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-primary);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid var(--border);
+    position: fixed;
+    z-index: 1000;
+    height: 48px;
+    width: 100%;
+    left: 0;
+    top: 0;
+
+    & > div.left {
+      margin-left: var(--space-sm);
+
+      & > h1 {
+        font-size: 20px;
+
+        & > a {
+          text-decoration: none;
+          color: var(--text-primary);
+        }
+      }
+    }
+
+    & > div.right {
+      margin-right: var(--space-sm);
+
+      & > ul.pages {
+        margin-left: 0px;
+        list-style: none;
+        display: flex;
+
+        & > li:not(:last-child) {
+          margin-right: var(--space-sm);
+        }
+
+        & > li > a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: var(--bg-secondary);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-sm);
+          color: var(--text-secondary);
+          text-decoration: none;
+          font-size: 0.9rem;
+          height: 32px;
+          width: 72px;
+
+          &:hover {
+            background-color: var(--bg-tertiary);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+          }
+
+          @media only screen and (max-width: 475px) {
+            font-size: 12px;
+            height: 28px;
+            width: 64px;
+          }
+        }
+      }
+    }
+  }
+</style>
