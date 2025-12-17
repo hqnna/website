@@ -31,7 +31,7 @@ const { title, desc } = Astro.props;
 </html>
 
 <style>
-  div.navbar {
+  .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -44,57 +44,57 @@ const { title, desc } = Astro.props;
     width: 100%;
     left: 0;
     top: 0;
+  }
 
-    & > div.left {
-      margin-left: var(--space-sm);
+  .navbar .left {
+    margin-left: var(--space-sm);
 
-      & > h1 {
-        font-size: 20px;
+    & h1 {
+      font-size: 20px;
 
-        & > a {
-          text-decoration: none;
-          color: var(--text-primary);
-        }
+      & a {
+        text-decoration: none;
+        color: var(--text-primary);
       }
     }
+  }
 
-    & > div.right {
+  .navbar .right {
+    margin-right: var(--space-sm);
+  }
+
+  .pages {
+    margin-left: 0;
+    list-style: none;
+    display: flex;
+
+    & li:not(:last-child) {
       margin-right: var(--space-sm);
+    }
 
-      & > ul.pages {
-        margin-left: 0px;
-        list-style: none;
-        display: flex;
+    & li a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      height: 32px;
+      width: 72px;
 
-        & > li:not(:last-child) {
-          margin-right: var(--space-sm);
-        }
+      &:hover {
+        background-color: var(--bg-tertiary);
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+      }
 
-        & > li > a {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: var(--bg-secondary);
-          border: 1px solid var(--border);
-          border-radius: var(--radius-sm);
-          color: var(--text-secondary);
-          text-decoration: none;
-          font-size: 0.9rem;
-          height: 32px;
-          width: 72px;
-
-          &:hover {
-            background-color: var(--bg-tertiary);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-          }
-
-          @media only screen and (max-width: 475px) {
-            font-size: 12px;
-            height: 28px;
-            width: 64px;
-          }
-        }
+      @media only screen and (max-width: 475px) {
+        font-size: 12px;
+        height: 28px;
+        width: 64px;
       }
     }
   }

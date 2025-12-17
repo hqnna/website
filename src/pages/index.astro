@@ -67,7 +67,7 @@ const links = [
 </Page>
 
 <style>
-  div.background {
+  .background {
     background-image: url("/img/background.jpg");
     background-position: center;
     filter: saturate(0%);
@@ -79,7 +79,7 @@ const links = [
     top: 0;
   }
 
-  div.center {
+  .center {
     width: 100%;
     height: 100%;
     display: flex;
@@ -87,7 +87,7 @@ const links = [
     align-items: center;
   }
 
-  div.container {
+  .container {
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
     border: 1px solid var(--border);
     background-color: var(--bg-primary);
@@ -103,9 +103,9 @@ const links = [
     }
   }
 
-  div.details {
-    flex-direction: row;
+  .details {
     display: flex;
+    flex-direction: row;
 
     & > img {
       width: 128px;
@@ -122,17 +122,17 @@ const links = [
     }
   }
 
-  div.about {
+  .about {
     display: flex;
     margin-left: var(--space-lg);
     flex-direction: column;
     justify-content: center;
 
-    & > h1 {
+    & h1 {
       color: var(--text-primary);
     }
 
-    & > h2 {
+    & h2 {
       font-weight: 200;
       color: var(--text-muted);
     }
@@ -140,16 +140,16 @@ const links = [
     @media only screen and (max-width: 800px) {
       align-items: center;
       margin-top: var(--space-md);
-      margin-left: 0px !important;
+      margin-left: 0;
       width: 100%;
 
-      & > h1 {
+      & h1 {
         @media only screen and (max-width: 475px) {
           font-size: 20px;
         }
       }
 
-      & > h2 {
+      & h2 {
         @media only screen and (max-width: 475px) {
           font-size: 15px;
         }
@@ -157,17 +157,17 @@ const links = [
     }
   }
 
-  ul.socials {
+  .socials {
     display: flex;
     list-style: none;
     margin-top: var(--space-md);
     width: 100%;
 
-    & > li {
+    & li {
       display: inline-block;
       margin-right: var(--space-sm);
 
-      & > a {
+      & a {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -179,7 +179,7 @@ const links = [
         width: 32px;
         height: 32px;
 
-        & > img {
+        & img {
           width: 16px;
         }
 
@@ -187,34 +187,34 @@ const links = [
           background-color: var(--bg-tertiary);
           border-color: var(--accent-blue);
           color: var(--accent-blue);
-        }
 
-        &:hover > img {
-          filter:
-            brightness(0)
-            saturate(100%)
-            invert(70%)
-            sepia(37%)
-            saturate(4975%)
-            hue-rotate(200deg)
-            brightness(106%)
-            contrast(101%);
+          & img {
+            filter:
+              brightness(0)
+              saturate(100%)
+              invert(70%)
+              sepia(37%)
+              saturate(4975%)
+              hue-rotate(200deg)
+              brightness(106%)
+              contrast(101%);
+          }
         }
       }
     }
 
     @media only screen and (max-width: 800px) {
       flex-direction: column;
-      margin-top: var(--space-md) !important;
+      margin-top: var(--space-md);
 
-      & > li {
-        margin-right: 0px;
+      & li {
+        margin-right: 0;
 
         &:not(:last-child) {
           margin-bottom: var(--space-sm);
         }
 
-        & > a {
+        & a {
           width: 100%;
           height: 48px;
         }
@@ -222,7 +222,7 @@ const links = [
     }
   }
 
-  span.label {
+  .label {
     display: none;
 
     @media only screen and (max-width: 800px) {
