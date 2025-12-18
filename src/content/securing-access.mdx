@@ -1,0 +1,438 @@
+---
+title: Securing Access
+summary: Securing access to Linux servers using multiple tools
+date: 2025-07-04
+---
+
+One of the first things I do when buying any kind of root server, that being
+either a VPS or Dedicated server, is to secure access to it. I often do this
+using multiple tools, so I wanted to write a post detailing how I do that, so
+that hopefully other people getting into system administration have some ideas
+of how they can tighten security on their own server and/or cloud infrastructure.
+
+## Basic Tool Overview
+
+To get things started I will be discussing the tools I often use. There's many
+tools and approaches to do the things I do, so keep in mind this is just how I
+do it, and you can do your own research and decide how you would prefer to do
+it on your own systems within your infrastructure or setup.
+
+### VPN Tunnels
+
+One thing I often do is lock things that need to be secured or private behind a
+VPN, there's multiple VPN software that can do this, and when I say VPN I do not
+mean one that is made to enforce privacy. We're using VPNs as they are intended,
+as a way to create a private internal network for things we do not want exposed
+to the public internet, also known as an "intranet."
+
+The main VPNs I have used for my infrastructure are the following:
+
+- [Wireguard](https://wireguard.com) is an open source VPN software and protocol.
+- [Tailscale](https://tailscale.com) is a hosted VPN with an easy-to-setup approach.
+- [Netbird](https://netbird.io) is a good alternative to Tailscale with roughly the same.
+
+I'm going to be focusing on **Wireguard** in this post because that is what I
+am currently using on my server(s). So if you would prefer to use either
+Tailscale or Netbird, I would recommend looking those up and doing your own
+research on how to set them up and secure servers using them.
+
+### SSH Key Types
+
+There is many different types of SSH key types but the one I usually prefer is
+**ED25519** for multiple reasons. For one, they are supposedly quantum-safe due
+to the fact they use elliptic curve algos. For two, the keys are quite small
+allowing them to be very portable and easy to pass around to people and paste
+in terminals and files. As a simple example, here is my public key:
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEST6MgqRSn0N9ResAQ6Alt0V02GJF3XWneEDeheuQVI
+```
+
+As you can see, it is quite small, which is nice compared to RSA or other types
+of SSH keys. Of course you do not have to use ED25519, but it is the type of key
+that I would personally recommend using due to it being quantum-safe and easy to
+distribute to other users or servers.
+
+### Firewalls
+
+There is many different firewalls, the ones I have the most experience with however
+are probably UFW, Firewalld, and NixOS' built-in firewall. However for the
+more experienced there are things like Opnsense and Pfsense which are BSD distros
+made to act as firewalls themselves. If you are a beginner and want easy to setup
+firewalls, I'd recommend staying away from the distros and instead go for the other
+firewalls that you can simply install as a package on your Linux systems. For the
+more experienced though, you can go for the BSD distros as they give you more power.
+
+I will be focusing on **UFW** in this guide, but of course you do not have to use
+what I use, a lot of people dislike UFW due to how simple it is, it's not very
+flexible, and it's not really meant to be. So if you are fine with that, continue
+reading and we'll get to configuring everything my way.
+
+## Setting Up A Tunnel
+
+The first thing we're going to do is use **Wireguard** to setup a VPN tunnel so
+that our internal or private services have a private interface to use that
+isn't publicly accessible. Assuming you're on Ubuntu (or Debian) we can
+install Wireguard using the following commands on your server:
+
+```sh
+sudo apt update
+sudo apt install -y wireguard-tools
+```
+
+This will update the package database and then install the `wireguard-tools`
+package which contains Wireguard itself and all of the packages needed for
+it to work. After installing we'll want to setup the actual tunnel interface,
+we can do this pretty easy with Wireguard by creating a configuration file.
+
+```
+[Interface]
+PrivateKey =
+Address =
+ListenPort = 51820
+
+[Peer]
+PublicKey =
+AllowedIPs =
+```
+
+As you can see the server-side tunnel configuration is pretty simple, we'll go
+over filling each field as necessary over the course of this section. To get us
+started let's focus on the keys. To create a private key we want to run the
+following command on the server using a terminal:
+
+```sh
+wg genkey > /etc/wireguard/private.key
+```
+
+This will generate a **private** key and store it in a `private.key` file. Now
+run the following as well:
+
+```sh
+cat /etc/wireguard/private.key | wg pubkey > /etc/wireguard/public.key
+```
+
+This will generate a **public** key from the **private** key and store it. You
+will want to keep the public key for use later when we create a client
+config for the tunnel. So now that we have our keypair, we're going to
+fill in the interface fields of our server config, here is an example:
+
+```
+[Interface]
+PrivateKey = AKmIKLDtZjBru+aVJOn1WK2oXGlEFLCYlJIxEFZWa1M=
+Address = 192.168.1.1/32
+ListenPort = 51820
+```
+
+To explain what each field does in this section to make it easier to understand:
+
+- `PrivateKey` is your **server** private key, the one we just generated and stored in a file.
+- `Address` is the **internal** loopback address we want to give the Wireguard VPN tunnel.
+- `ListenPort` is the port the tunnel will listen on for VPN traffic, **it needs to be exposed**.
+
+Once these fields have been filled in we can continue to doing the `Peer`
+section of the config which is for the client, aka, your own computer; but
+first we need to create the client config locally:
+
+```
+[Interface]
+PrivateKey =
+Address =
+
+[Peer]
+PublicKey =
+EndPoint =
+AllowedIPs =
+PersistentKeepalive = 20
+```
+
+You will need to run the previous two commands mentioned earlier to generate
+keys on your own computer this time, these will be used as the client keypair.
+We will start with the `Peer` section since we already have the needed details.
+A finished `Peer` section would for example look like:
+
+```
+[Peer]
+PublicKey = 6FNv8x0o6O7ckn47ELXtb6qDNN+5P2epJoXOFGGmtgQ=
+EndPoint = 232.111.222.151:51820
+AllowedIPs = 192.168.1.1/32
+PersistentKeepalive = 20
+```
+
+A brief description of what each field does in this section would be, for example:
+
+- `PublicKey` is the **server** public key that we generated in the earlier steps on the server.
+- `Endpoint` is the **server** public address and the VPN port, this would be the exposed one.
+- `AllowedIPs` is a netmask of allowed VPN addresses, these ones you assign to your tunnel.
+- `PersistentKeepalive` tells Wireguard how many seconds to keep a connection alive.
+
+Given this knowledge you should be able to fill in the other sections, but here are examples:
+
+```
+; Server Wireguard Config
+; Located in /etc/wireguard/tunnel.conf
+
+[Interface]
+PrivateKey = AKmIKLDtZjBru+aVJOn1WK2oXGlEFLCYlJIxEFZWa1M=
+Address = 192.168.1.1/32
+ListenPort = 51820
+
+[Peer]
+PublicKey = 7E+1ccNueJqkFQEkmSfDfqU1dyQbHSqoJCmOxvROBg8=
+AllowedIPs = 192.168.1.0/24
+```
+
+```
+; Client Wireguard Config
+; Downloaded on your own computer
+
+[Interface]
+PrivateKey = qArJ2BddEkugK0Hg/qrgepFiS3sDLMeGcsYgd74eG2o=
+Address = 192.168.1.2/32
+
+[Peer]
+PublicKey = 6FNv8x0o6O7ckn47ELXtb6qDNN+5P2epJoXOFGGmtgQ=
+EndPoint = 232.111.222.151:51820
+AllowedIPs = 192.168.1.1/32
+PersistentKeepalive = 20
+```
+
+After setting up these configuration files on their respective systems, you
+can start the tunnel on the server by running the following command, assuming
+your system has systemd for services:
+
+```sh
+systemctl enable --now wg-quick@tunnel.service
+```
+
+This will automatically enable the tunnel on boot and start it. Lastly, to
+connect to the tunnel on our own system, we would run the following command
+in our preferred terminal:
+
+```sh
+sudo wg-quick up ~/.config/wireguard/tunnel.conf
+```
+
+Assuming everything was configured correctly... you should now have a VPN setup.
+You can check to make sure by running `sudo wg show`, if the `peer` section shows
+a result showing the `last handshake` and `transfer` fields, you have connected
+and can move onto the next section.
+
+## Configuring SSH Access
+
+Now that we have a working VPN tunnel we want to configure our SSH daemon to use
+it, as well as configure the types of keys we want our server to accept. To do
+this we'll be configuring the daemon in two parts, the first part will cover
+getting the `sshd` daemon to listen on our VPN subnet, and the second will be
+configuring it to only accept our preferred key type (for me, that is ED25519).
+
+### Changing The Listening Address
+
+To change the address we are listening on we will need to change two files:
+
+- `/etc/ssh/sshd_config` which contains all of the settings for the ssh server daemon.
+- `/lib/systemd/system/ssh.service` which contains the systemd service configuration.
+
+To get us started we will want to update the service to wait for the VPN tunnel to
+start and add a small amount of time before sshd starts to ensure the VPN address
+is available. To do this we will open the file and change two things, we do not need
+to modify anything else in this file.
+
+```diff
+[Unit]
+Description=OpenBSD Secure Shell server
+Documentation=man:sshd(8) man:sshd_config(5)
+- After=network.target nss-user-lookup.target auditd.service
++ After=network.target nss-user-lookup.target auditd.service wg-quick@tunnel.service
+ConditionPathExists=!/etc/ssh/sshd_not_to_be_run
+
+[Service]
++ ExecStartPre=/bin/sleep 5
+EnvironmentFile=-/etc/default/ssh
+ExecStartPre=/usr/sbin/sshd -t
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS
+ExecReload=/usr/sbin/sshd -t
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+RestartPreventExitStatus=255
+Type=notify
+RuntimeDirectory=sshd
+RuntimeDirectoryMode=0755
+
+[Install]
+WantedBy=multi-user.target
+Alias=sshd.service
+```
+
+These changes do two things: wait for the tunnel service, and add a 5 second
+sleep before starting, ensuring that the VPN tunnel starts and that the tunnel's
+address is actually available for use. After making these changes you will want
+to run the following command to make systemd aware of the changes we just made
+as it doesn't automatically see the changes unfortunately:
+
+```sh
+sudo systemctl daemon-reload
+```
+
+After this is done we will now be updating our ssh daemon settings to properly
+listen on the address we specified in our VPN tunnel configuration in earlier
+steps. To do this we will want to uncomment and change the `ListenAddress` line
+in the file located at `/etc/ssh/sshd_config`.
+
+```diff
+- #ListenAddress 0.0.0.0
++ ListenAddress 192.168.1.1
+```
+
+You can optionally change the port the server listens on by uncommenting and
+changing the `Port` setting, but as we are already listening on a private subnet
+it isn't strictly necessary. At last, we can restart the ssh daemon and connect
+to the server using the VPN tunnel. **Ensure you are properly connected to the
+VPN tunnel before doing this**; Run the following command to switch over:
+
+```sh
+systemctl restart ssh.service
+```
+
+Assuming everything worked... you can disconnect and reconnect using the VPN tunnel:
+
+```sh
+ssh root@192.168.1.1
+```
+
+If this worked, you have successfully setup SSH to listen on the VPN tunnel.
+
+### Changing Allowed Key Types
+
+Before we go about changing the allowed types of keys the first thing we want
+to do is disable password authentication as otherwise people could just bypass
+the use of SSH keys by using a password, to do that we can add/change the following
+in the `/etc/ssh/sshd_config` file:
+
+```
+PermitRootLogin prohibit-password
+KbdInteractiveAuthentication no
+PasswordAuthentication no
+PubkeyAuthentication yes
+PermitEmptyPasswords no
+```
+
+These settings change the daemon settings to completely disable password auth. After
+doing this we can now add a few lines to tell the daemon what types of keys we want
+to accept, specifically there is three lines we want to change or add to the daemon
+settings file:
+
+```
+HostKeyAlgorithms ssh-ed25519
+PubkeyAcceptedKeyTypes ssh-ed25519
+HostbasedAcceptedKeyTypes ssh-ed25519
+```
+
+These lines do effectively three things that I will break down to make them easy to understand:
+
+- `HostKeyAlgorithms` changes what key types the **server** is allowed to use.
+- `PubkeyAcceptedKeyTypes` changes what public key types the server accepts.
+- `HostbasedAcceptedKeyTypes` changes what key types different hosts can use.
+
+In other words, these changes make it so that the server and clients can only use `ed25519` keys,
+which is exactly what we want. Before these changes will fully take effect though we need to
+delete the old keys that aren't `ed25519` keys, and finally restart the ssh daemon again. To
+delete the other ssh keys that we don't need you can use the following command:
+
+```sh
+find /etc/ssh -type f -name "ssh_host_*_key*" -and -not -name "ssh_host_ed25519_key*" -exec rm {} \;
+```
+
+This command will delete all host keys that are not of the type that we want to use. After
+this is done we can now restart the ssh daemon by running the following command from earlier:
+
+```sh
+systemctl restart ssh.service
+```
+
+Assuming everything worked... it should now be using only `ed25519` keys.
+
+## Setting Up Firewall Rules
+
+As stated in the first section we will be using **UFW** for our firewall due to
+it being rather simple to use in comparison to other firewalls. To get started
+we will want to make sure it is installed first, so run the following commands
+on the server to install it and enable it on boot:
+
+```sh
+apt update
+apt install -y ufw
+systemctl enable ufw.service
+```
+
+After installing we will need at minimum 2 rules in order for things to work properly:
+
+1. A rule allowing UDP traffic to the VPN's port, so VPN traffic is allowed.
+2. A rule allowing TCP traffic to the VPN's address, so we can access SSH.
+
+To setup these rules get your server's **public** address and add it using the following command:
+
+```sh
+ufw allow proto udp from any to [server public ip] port 51820
+```
+
+Do *not* include the `[` or `]` as I know some people are going to do that and wonder why it
+did not work. This will allow incoming VPN tunnel traffic to the server, the next thing
+we need to do is allow SSH traffic in via the tunnel's address, to do that we can do the
+following command:
+
+```sh
+ufw allow proto tcp from 192.168.1.0/24 to 192.168.1.1/32 port 22
+```
+
+This, as said above, will allow SSH traffic through the firewall on the VPN's subnet. After
+we have set up these rules we can now actually enable and start the firewall. This is the
+"scary" part:
+
+```sh
+ufw enable
+```
+
+It will ask you if you're sure you want to enable it, type `y` and hit enter to start it.
+Assuming you did everything correctly up to this point, you should still be connected to
+SSH and your server should now be locked down with a VPN, SSH Key, and Firewall. Congrats.
+
+
+### Recovering Access With UFW
+
+If the above locked you out of your server, check if your VPS provider gives you access to
+a recovery environment and look up how to mount linux partitions. You should be able to mount
+your server's main partition and edit the `/etc/ufw/ufw.conf` file, you only need to change
+one line to disable it:
+
+```diff
+# /etc/ufw/ufw.conf
+#
+
+# Set to yes to start on boot. If setting this remotely, be sure to add a rule
+# to allow your remote connection before starting ufw. Eg: 'ufw allow 22/tcp'
+- ENABLED=yes
++ ENABLED=no
+
+# Please use the 'ufw' command to set the loglevel. Eg: 'ufw logging medium'.
+# See 'man ufw' for details.
+LOGLEVEL=low
+```
+
+After making this change, unmounting the partition, and rebooting, your firewall will be disabled
+and will give you access to your system again. You can debug why it didn't work at this point.
+
+## Conclusion
+
+There is other things you can do, like disabling ICMP packets which allow things to `ping` your server,
+use things like `fail2ban` which makes it so if things hit your firewall too many times they get banned
+from access automatically, and more. I'd recommend looking up all the things you can do to secure
+your servers. This is just my typical setup. I hope this post helped you secure things.
+
+I didn't expect this post to be as long as detailed as it is, it's not meant to be written for beginners
+and I'm more targeting experienced system administrators, but I tried to make it detailed enough at the
+very least for beginners to get a *high-level understanding* of how everything works.
+
+I'm not liable or responsible if you get locked out of your own servers though, you do this all at your
+own risk. So don't come to me if you get your access removed due to a faulty configuration.

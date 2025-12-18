@@ -2,14 +2,13 @@
 import Page from '../../layouts/Page.astro';
 
 export async function getStaticPaths() {
-  const posts = await Astro.glob('../../content/*.mdx');
+  const posts = import.meta.glob('../../content/*.mdx', { eager: true });
 
-  return posts.map((post) => {
-    const slug = post.file.split('/').pop().replace('.mdx', '');
+  return Object.entries(posts).map(([path, post]) => {
+    const slug = path.split('/').pop().replace('.mdx', '');
     return { params: { slug }, props: { post } };
   });
 }
-
 const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
   month: '2-digit',
   day: '2-digit',

@@ -1,0 +1,204 @@
+---
+title: Easy Environments
+summary: Using nix for easy, reproducible development environments
+date: 2025-03-08
+---
+
+One of the most tedious and time-wasting parts of the development process is
+setting up tooling. For a NodeJS project this requires getting the right Node
+version, getting the preferred package manager, installing things like a linter,
+formatter, and sometimes a compiler for TypeScript or other JS-transpiled
+languages. Well today we are going to talk about using [Nix](https://nixos.org)
+as an SDK/tool manager, and how we can setup easy, reproducible, and
+CI-compatible environments.
+
+## Installing Nix
+
+There are two ways that I would recommend installing the Nix package manager:
+
+1. Using the official installer on the [Nix download page](https://nixos.org/download).
+2. Using the [Determinate nix installer](https://github.com/DeterminateSystems/nix-installer) that is on GitHub.
+
+We'll use option 2, as it's the fastest and easiest method and also tells you
+everything it's going to do before it installs it to your system. To get started
+we'll want to run the following command:
+
+```sh
+curl -sL https://install.determinate.systems/nix | sh -s -- install
+```
+
+This will give you the following prompt asking if you want to install "Determinate
+Nix," which is primarily meant for enterprise setups, and thus we will not be needing
+it, so we can reply no.
+
+```
+Install Determinate Nix?
+
+Selecting 'no' will install Nix from NixOS, without automated garbage collection and enterprise certificate support.
+
+Proceed? ([Y]es/[n]o/[e]xplain):
+```
+
+After responding no to installing determinate nix it will give you an install
+plan and ask if you want to continue, assuming everything looks good, type "yes"
+to continue and it will install Nix for you.
+
+```
+Nix install plan (v3.0.0)
+Planner: linux (with default settings)
+
+Planned actions:
+* Create directory `/nix`
+* Fetch `https://releases.nixos.org/nix/nix-2.26.2/nix-2.26.2-x86_64-linux.tar.xz` to `/nix/temp-install-dir`
+* Create a directory tree in `/nix`
+* Synchronize /nix/var ownership
+* Move the downloaded Nix into `/nix`
+* Synchronize /nix/store ownership
+* Create build users (UID 30001-30032) and group (GID 30000)
+* Setup the default Nix profile
+* Place the Nix configuration in `/etc/nix/nix.conf`
+* Configure the shell profiles
+* Configure upstream Nix daemon service
+* Remove directory `/nix/temp-install-dir`
+
+
+Proceed? ([Y]es/[n]o/[e]xplain):
+```
+
+You should now have Nix installed. Next, we'll configure some features that are
+not enabled by default as they're considered still experimental.
+
+## Configuring Features
+
+We need to enable two key features: `nix-command` and `flakes`. The `nix-command`
+feature provides a more user-friendly CLI compared to Nix's default commands.
+Meanwhile, the `flakes` feature allows for lockfile-backed reproducible packages
+and environments, making it easier to share setups.
+
+To do this we will want to create a directory and edit a config file, but this
+part is easy to do.
+
+```sh
+mkdir -p $HOME/.config/nix
+echo "experimental-commands = nix-command flakes" >> $HOME/.config/nix/nix.conf
+```
+
+After this has been done, you will have both of the features we need to get
+things setup.
+
+## Setting Up a Flake
+
+When using Nix we use something called [Flakes](https://wiki.nixos.org/wiki/Flakes), as described on the Nix wiki:
+
+> Nix flakes enforce a uniform structure for Nix projects, pin versions of their dependencies in a lock file, and make it more convenient to write reproducible Nix expressions. 
+
+In other words, a reproducible setup with pinned dependencies for environments
+and packages. We'll configure a flake to define our development environment, ensuring 
+consistency. To achieve this, we'll create a `flake.nix` file with the following
+structure:
+
+```nix
+{
+  inputs = {
+    utils.url = "github:numtide/flake-utils/main";
+  };
+
+  outputs = { self, nixpkgs, utils }:
+    utils.lib.eachDefaultSystem(system:
+      let pkgs = import nixpkgs { inherit system; }; in {
+        devShells.default = pkgs.mkShell {};
+      });
+}
+```
+
+This setup is quite minimal and doesn’t yet include the necessary packages or
+tools for our project. Its primary purpose is to enable the `nix develop` command,
+which lets us enter a reproducible shell environment. In this guide, we'll focus
+on two key fields: `buildInputs` and `nativeBuildInputs`. While they may sound similar,
+they serve distinct purposes.
+
+### Run-time Packages (`buildInputs`)
+
+The `buildInputs` field should be used for packages that are needed at run-time. Think
+things like C libraries, and tooling that your program might use while the user is using
+it. It should note these will also be built for the __target__ architecture rather than
+the one you are building from.
+
+### Build-time Packages (`nativeBuildInputs`)
+
+The `nativeBuildInputs` field should be used for packages that are needed at build-time.
+This would typically be things like your C compiler, formatter, linter, and other things
+like that. Generally if your project doesn't need it when it's running, it should be put
+in this field rather than `buildInputs`. 
+
+### Environment Variables
+
+Setting environment variables in your shell is straight-forward. Just define them within the
+shell section of your flake. For example, if you need to set `GOPATH`, you can specify it directly
+inside the `mkShell {}` block, and it will work seamlessly. Once you get the hang of it, using
+this approach becomes second nature!
+
+### An Example of a Flake
+
+So, with the information that we have thus learned we will put it together and make a flake for an
+example GLFW + C project and make a flake that utilizes these things, I will provide comments in the
+example code to explain why things are where they are and what they are doing.
+
+```nix
+{
+  inputs = {
+    utils.url = "github:numtide/flake-utils/main";
+  };
+
+  outputs = { self, nixpkgs, utils }:
+    utils.lib.eachDefaultSystem(system:
+      let pkgs = import nixpkgs { inherit system; }; in {
+        devShells.default = pkgs.mkShell {
+          # This is setting the "ENV" environment variable
+          # in our shell, if we echo the value in the dev
+          # shell it will simply print out "production."
+          ENV = "production";
+
+          # We put GLFW into the buildInputs field as it is
+          # needed at runtime, our program depends on it to
+          # work and run correctly when users use it.
+          buildInputs = with pkgs; [ glfw3 ];
+
+          # We put clang, pkg-config, and meson in this field instead
+          # as they are only really needed at build-time, the user is
+          # not going to be interfacing with these tools themselves.
+          nativeBuildInputs = with pkgs; [ clang pkg-config meson ];
+        };
+      });
+}
+```
+
+The `with pkgs` part of these declarations tell nix to use the `pkgs` object
+defined above for the list that we specify after it, in other-words doing
+this allows us to just enter the name of the package instead of having to
+type `pkgs.clang`, etc. for each item, thus making our code a lot cleaner.
+
+## Continuous Integration
+
+One of the benefits of using a Nix flake is that if your CI setup has Nix
+installed you can easily use the exact same environment that you are using
+locally to develop your app or website. For those using Actions (GitHub, Gitea,
+and Forgejo) you can simply use an action such as [Install Nix](https://github.com/marketplace/actions/install-nix) to get Nix installed
+into your CI workflow quick and easily, and from there building your app is simply:
+
+```sh
+nix develop -c "meson build"
+```
+
+Though if you are going to be using Nix to build for production I recommend reading the
+[wiki page](https://wiki.nixos.org/wiki/Flakes) on flakes and learning how to create a package instead, as then it's as simple
+as doing `nix build` and it'll build everything itself with no user intervention, including
+running tests and any patches.
+
+## Final Words
+
+Nix is very complex and has many features and things you can can configure and setup, it would
+take me hours upon days to try to explain everything you can do with flakes let alone Nix itself.
+I highly recommend reading through the documentation, the wiki, and experimenting with things yourself.
+It can be annoying to mess with at first but once you get the hang of it, it is really nice tool to have
+in your shed. I've used many tools but none quite work just as well as Nix does.

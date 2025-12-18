@@ -1,0 +1,152 @@
+---
+title: Dual-Edged Technology
+summary: How the growing use of AI is both good and bad for everyone
+date: 2025-08-30
+---
+
+With the growing use of artificial intelligence we have to start to question if
+it is really helping us, or if it is harming us in the long run. While some may
+be inclined it is the latter, I'm going to be the devil's advocate and explain
+that it is both a good and bad thing, and what my thoughts on everything is.
+
+This post will be split up into three sections detailing everything to the best
+of my abilities, those being:
+
+- **The Good** - The good things about the growing use and development of AI.
+- **The Bad** - The bad things that are resulting from the growing use of AI.
+- **The Ugly** - The worst of the worst that is coming from growing use.
+
+It should be noted these are *my opinions* these are not facts, and are heavily
+subjective.
+
+This all being said, let's get started.
+
+## The Good - Why I Am Supportive Of AI
+
+Just like your terminal, or text editor, AI is a tool. It can provide helpful
+information and help with repetitive tasks such as writing loops or boilerplate,
+and can sometimes act as a rubber duck when needing to debug or think something
+through. It has helped me to figure out things that I didn't understand before.
+For example, I have been studying [bytecode](https://en.wikipedia.org/wiki/Bytecode)
+and for the longest time didn't understand how function calls, recursion and loops
+worked when it comes to something like bytecode which is more linear. Claude was
+able to help me understand how function calls and such work when they are compiled
+to bytecode:
+
+> Function calls in bytecode typically work through a stack-based mechanism
+  where the calling code first pushes the function arguments onto a runtime
+  stack, then executes a call instruction that pushes the current execution
+  context (like the return address and local variables) onto the stack, jumps to
+  the target function's bytecode address, and begins executing the function's
+  instructions. The called function operates on its own stack frame, potentially
+  pushing and popping values as it runs, and when it finishes, it places any
+  return value on the stack and executes a return instruction that pops the
+  saved context to restore the previous execution state and jump back to the
+  instruction following the original call. This stack-based approach allows for
+  nested function calls, recursion, and clean separation between different
+  execution contexts, with the virtual machine or interpreter managing the stack
+  operations automatically as it processes each bytecode instruction.
+
+This is a *good* explanation, and it makes sense to someone like me who is just
+getting into low-level systems such as compilers and interpreters. But like I
+said at the start of this segment, it is a *tool*, you don't rely on an editor
+by itself to help you produce correct code for example, you rely on compiler
+errors, an LSP maybe, and documentation as well. This should be the case with
+using AI as well, don't soley rely on it, use it along with the other tools that
+you would normally use.
+
+That is the important thing here, it is a *tool*, and I feel like I need to say
+that repeatedly for it to get across to some people. It is not omnipotent, it is
+not "all-knowing", it is a tool which is trained on books, videos sometimes, but
+most notably, *human generated data*, humans are wrong *a lot* of the time, and
+because of this, the AIs we use can be wrong as well. They need to be treated
+with caution and not whimsy.
+
+And that is where we veer off into the next section, so let's continue.
+
+## The Bad - Why I Am Cautious Of AI
+
+Due to AI being trained on human-generated content, it can be wrong a lot of the
+time, and part of this is because of [hallucinations](https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)).
+Hallucinations are, put simply by the Wikipedia article I just linked:
+
+> In the field of artificial intelligence (AI), a hallucination or artificial
+  hallucination (also called confabulation, or delusion) is a response generated
+  by AI that contains false or misleading information presented as fact. This
+  term draws a loose analogy with human psychology, where a hallucination
+  typically involves false percepts. However, there is a key difference: AI
+  hallucination is associated with erroneously constructed responses
+  (confabulation), rather than perceptual experiences.
+
+In otherwords, occasionally AIs will "generate" information that is inherently
+false or misleading and present it as fact. This is not just a fault of the
+technology though, it's also a fault of the data it was trained on. This is
+exactly the reason I am cautious of what AI says or presents, and why I insist
+in the previous section to treat it as any other tool. *Always* do more research
+on what an AI says or produces, don't trust it's code or comment without further
+research and evaluation. After I got the explanation of how functions work from
+Claude, I did more research on my own without using it. I got a rough summary
+from it, then did further research to make the knowledge I supposedly gained
+more concrete.
+
+You wouldn't trust another person to commit to main without first making sure
+CI pipelines pass and that the code doesn't contain vulnerabilities, so why would
+you trust a random computer program spitting out text to? That seems to be a common
+pattern these days, unverified information being trusted as fact without further
+research on the subject at hand. This isn't a fault of the tool, this is a fault
+of the user. In order to properly use the tool we have been given, we need to
+first treat it as a tool.
+
+So what's the solution here? Get rid of AI completely? Improve it over time? No,
+neither of these are a solution. Removing the use of AI completely would be a
+technological setback, and improving it over time, takes, as it says, time. We
+need a solution for now, and that solution is to stop trusting it as fact. Start
+treating it as a tool, a part of your workflow, not as your entire workflow.
+
+## The Ugly - Why I Don't Support AI
+
+The growth of AI doesn't have environmental effects *in itself*, but what does
+is the datacenters that are hosting the models we use. You can take a look at
+any of the following research regarding environmental effects from the use of
+AI here if you wish, just note that these are not of my own writing or opinion:
+
+- https://www.iea.org/reports/energy-and-ai
+- https://mit-genai.pubpub.org/pub/8ulgrckc
+- https://libguides.ecu.edu/c.php?g=1395131&p=10318505
+
+These go into detail about the environmental effects and energy consumption from
+the training and use of AI models. Realistically they don't use more than we as
+humans do, but that doesn't mean they don't *contribute* to the acceleration of
+the effects that green house gasses and global warming have.
+
+Do I think we should stop using AI? No, I don't. What I think is we need a more
+environmental friendly approach to energy as a whole. This is less an issue with
+the technology itself and more of an issue with the way we power the technology.
+But for now that approach does not seem to exist or isn't used enough to fully
+be "earth-friendly" in a sense. It's harmful, but not because of the tech itself.
+
+However, me running DeepSeek or Gwen3 on my personal computer isn't going to have
+the same level of effect as a large datacenter running one. A datacenter runs
+models in mass. They run thousands, upon millions of instances of models. On top
+of this, I'm not going to be training a model on my local computer, I'm going to
+be using pre-existing models, and using models uses less energy than it takes to
+actually train one. I doubt one person using a model on their local computer is
+going to contribute enough to the problem to be... problematic, and people need
+to keep that in mind, especially in the short-term.
+
+## Conclusion
+
+My thoughts on the matter can be basically summarized into the following:
+
+- Using AI as a tool as it's intended to be, is actually a good thing.
+- We need to stop trusting what AI produces as fact and research more.
+- We need to be skeptical and be less reliant on the technology as a whole.
+- We need a better solution to power the models we use in the long run.
+
+AI is useful, it can be a good thing to have in your toolchain, but until we
+start treating it as that-- a tool, we will continue to have problems with people
+trusting what they say as fact, and in result misleading people who use it. I
+like using AI for personal things, and I add a notice to projects when I use it
+so people are aware that it was AI assisted. I don't believe destroying AI is
+the correct path, I believe we're the issue, not the technology we use, and that
+is something we can improve on... but will we?
