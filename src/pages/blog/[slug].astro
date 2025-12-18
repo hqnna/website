@@ -9,6 +9,7 @@ export async function getStaticPaths() {
     return { params: { slug }, props: { post } };
   });
 }
+
 const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
   month: '2-digit',
   day: '2-digit',
