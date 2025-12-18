@@ -38,7 +38,4 @@ deploy:
   stage: deploy
   image: node:alpine
   needs: [build]
-  before_script:
-    - npm install -g wrangler
-  script:
-    - wrangler pages deploy dist --project-name=website
+  script: npx wrangler pages deploy dist --project-name=website
