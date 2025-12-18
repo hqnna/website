@@ -1,13 +1,14 @@
 ---
+import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 
-const posts = Object.values(import.meta.glob('../../content/*.mdx', {
-  eager: true
-})).sort((a, b) => {
-  const firstDate = new Date(a.frontmatter.date).valueOf();
-  const secondDate = new Date(b.frontmatter.date).valueOf();
-  return secondDate - firstDate;
-});
+const posts = (await getCollection('posts'))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => {
+    const firstDate = new Date(a.data.date).valueOf();
+    const secondDate = new Date(b.data.date).valueOf();
+    return secondDate - firstDate;
+  });
 
 const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
   month: '2-digit',
@@ -29,16 +30,16 @@ const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
     </section>
     <section>
       <ul class="posts">
-        {posts.filter((p) => !p.frontmatter.draft).map((post) => (
-        <li><a href={`/blog/${post.file.split('/').pop().replace('.mdx', '')}`}>
+        {posts.map((post) => (
+        <li><a href={`/blog/${post.slug}`}>
           <div class="metadata">
-            <h1>{post.frontmatter.title}</h1>
+            <h1>{post.data.title}</h1>
             <p>
               <img src="/img/calendar.svg" alt="calendar icon">
-              {fmtDate(post.frontmatter.date)}
+              {fmtDate(post.data.date)}
             </p>
           </div>
-          <p>{post.frontmatter.summary}</p>
+          <p>{post.data.summary}</p>
         </a></li>
         ))}
       </ul>

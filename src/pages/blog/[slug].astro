@@ -1,13 +1,14 @@
 ---
+import { getCollection } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 
 export async function getStaticPaths() {
-  const posts = import.meta.glob('../../content/*.mdx', { eager: true });
+  const posts = await getCollection('posts');
 
-  return Object.entries(posts).map(([path, post]) => {
-    const slug = path.split('/').pop().replace('.mdx', '');
-    return { params: { slug }, props: { post } };
-  });
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
 }
 
 const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
@@ -17,18 +18,30 @@ const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
 });
 
 const { post } = Astro.props;
-const { Content } = post;
+const { Content, headings } = await post.render();
 ---
 
-<Page title={post.frontmatter.title} desc={post.frontmatter.summary}>
+<Page title={post.data.title} desc={post.data.summary}>
   <div class="content">
     <div class="metadata">
-      <h1>{post.frontmatter.title}</h1>
+      <h1>{post.data.title}</h1>
       <div>
-        <p>{post.frontmatter.summary}</p>
-        <p>{fmtDate(post.frontmatter.date)}</p>
+        <p>{post.data.summary}</p>
+        <p>{fmtDate(post.data.date)}</p>
       </div>
     </div>
+
+    <details class="toc" open>
+      <summary>Table of Contents</summary>
+      <ul>
+        {headings.filter(h => h.depth > 1 && h.depth < 4).map(h => (
+          <li class={`depth-${h.depth}`}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </details>
+
     <section class="article">
       <Content />
       <p class="copyright">
@@ -41,6 +54,24 @@ const { Content } = post;
     </section>
   </div>
 </Page>
+
+<script>
+  const toc = document.querySelector('.toc');
+
+  if (toc instanceof HTMLDetailsElement && window.innerWidth <= 1500) {
+    toc.open = false;
+  }
+
+  const tocLinks = toc?.querySelectorAll('a');
+
+  tocLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 1500 && toc instanceof HTMLDetailsElement) {
+        toc.open = false;
+      }
+    });
+  });
+</script>
 
 <style>
   .content {
@@ -71,6 +102,116 @@ const { Content } = post;
       }
     }
 
+    .toc {
+      position: fixed;
+      left: max(20px, calc(50% - 24rem - 300px));
+      max-height: calc(100vh - 140px);
+      border: 1px solid var(--border);
+      background: var(--bg-secondary);
+      border-radius: var(--radius);
+      padding: var(--space-sm);
+      overflow-y: auto;
+      width: 250px;
+
+      & summary {
+        font-size: 14px;
+        color: var(--text-primary);
+        padding: 0px 0px var(--space-sm) 0px;
+        font-weight: 600;
+        list-style: none;
+        cursor: default;
+        pointer-events: none;
+      }
+
+      & summary::-webkit-details-marker {
+        display: none;
+      }
+
+      & summary::after {
+        display: none;
+      }
+
+      & ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      & li {
+        margin: 4px 0;
+      }
+
+      & a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 13px;
+        display: block;
+        padding: 2px 0;
+        transition: color 0.2s;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      & a:hover {
+        color: var(--accent-blue);
+      }
+
+      & .depth-2 {
+        margin-left: 0;
+      }
+
+      & .depth-3 {
+        margin-left: 1rem;
+      }
+
+      & .depth-4 {
+        margin-left: 2rem;
+      }
+
+      @media only screen and (max-width: 1400px) {
+        margin-top: 10px;
+        position: relative;
+        overflow: visible;
+        max-height: none;
+        width: calc(100% - 22px);
+        left: 0;
+        top: 0;
+
+        &:not([open]) {
+          margin-bottom: 0;
+        }
+
+        & summary {
+          cursor: pointer;
+          user-select: none;
+          position: relative;
+          padding-right: 20px;
+          pointer-events: auto;
+          padding: 0px !important;
+        }
+
+        & summary::after {
+          display: block;
+          content: '▲';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 10px;
+          transition: transform 0.2s;
+        }
+
+        &[open] summary::after {
+          transform: translateY(-50%) rotate(180deg);
+        }
+
+        & ul {
+          margin-top: var(--space-xs);
+        }
+      }
+    }
+
     @media only screen and (max-width: 800px) {
       margin-left: var(--space-md);
       margin-right: var(--space-md);
@@ -81,7 +222,7 @@ const { Content } = post;
 
       & > .metadata {
         & > div > p:first-child {
-          font-size: 12px;
+          font-size: 12px !important;
         }
 
         & > div > p:last-child {
@@ -97,6 +238,7 @@ const { Content } = post;
 
   .article {
     width: 48rem;
+    scroll-margin-top: 85px;
 
     @media only screen and (max-width: 800px) {
       max-width: 100%;
@@ -167,6 +309,7 @@ const { Content } = post;
       align-items: center;
       display: flex;
       color: var(--text-primary);
+      scroll-margin-top: 85px;
     }
 
     & :global(p),
