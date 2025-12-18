@@ -1,0 +1,272 @@
+---
+import Page from '../../layouts/Page.astro';
+
+export async function getStaticPaths() {
+  const posts = await Astro.glob('../../content/*.mdx');
+
+  return posts.map((post) => {
+    const slug = post.file.split('/').pop().replace('.mdx', '');
+    return { params: { slug }, props: { post } };
+  });
+}
+
+const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
+  month: '2-digit',
+  day: '2-digit',
+  year: 'numeric'
+});
+
+const { post } = Astro.props;
+const { Content } = post;
+---
+
+<Page title={post.frontmatter.title} desc={post.frontmatter.summary}>
+  <div class="content">
+    <div class="metadata">
+      <h1>{post.frontmatter.title}</h1>
+      <div>
+        <p>{post.frontmatter.summary}</p>
+        <p>{fmtDate(post.frontmatter.date)}</p>
+      </div>
+    </div>
+    <section class="article">
+      <Content />
+      <p class="copyright">
+        This article is licensed under the
+        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+          CC BY-NC-ND 4.0
+        </a>
+        license.
+      </p>
+    </section>
+  </div>
+</Page>
+
+<style>
+  .content {
+    justify-content: center;
+    margin-bottom: 3rem;
+    margin-top: 64px;
+    display: grid;
+    padding-top: var(--space-lg);
+
+    & > .metadata {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--space-sm);
+      margin-bottom: 0px;
+
+      & > h1 {
+        color: var(--text-primary);
+      }
+
+      & > div {
+        justify-content: space-between;
+        margin-top: var(--space-xs);
+        display: flex;
+
+        & > p {
+          color: var(--text-muted);
+          font-size: var(--font-size);
+        }
+      }
+    }
+
+    @media only screen and (max-width: 800px) {
+      margin-left: var(--space-md);
+      margin-right: var(--space-md);
+      margin-top: 48px;
+      padding-top: var(--space-md);
+      display: block;
+      max-width: calc(100vw - 2 * var(--space-md));
+
+      & > .metadata {
+        & > div > p:first-child {
+          font-size: 12px;
+        }
+
+        & > div > p:last-child {
+          display: none;
+        }
+
+        & > h1 {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+
+  .article {
+    width: 48rem;
+
+    @media only screen and (max-width: 800px) {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    & :global(pre) {
+      border-radius: var(--radius);
+      margin: var(--space-sm) 0px var(--space-sm) 0px;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      background: var(--bg-code) !important;
+      padding: var(--space-sm);
+      font-weight: 100;
+      width: 100%;
+
+      @media only screen and (max-width: 800px) {
+        width: auto;
+      }
+    }
+
+    & :global(pre code) {
+      padding: 0px !important;
+      font-size: var(--font-code);
+      white-space: pre;
+      border: none !important;
+      background: transparent !important;
+      font-family: "Berkeley Mono", monospace;
+    }
+
+    & :global(pre)::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    & :global(pre)::-webkit-scrollbar-track {
+      background-color: var(--bg-primary);
+      border-top: 1px solid var(--border);
+      border-radius: 0px 0px var(--radius) var(--radius);
+    }
+
+    & :global(pre)::-webkit-scrollbar-thumb {
+      background-color: var(--border);
+    }
+
+    & :global(hr) {
+      border: 1px solid var(--border);
+    }
+
+    & :global(:not(pre) > code) {
+      background: var(--bg-code);
+      padding: 0px var(--space-xs) 0px var(--space-xs);
+      border: 1px solid var(--border);
+      font-family: "Berkeley Mono", monospace;
+      border-radius: var(--radius);
+      font-size: var(--font-code);
+      white-space: nowrap;
+      font-weight: 100;
+      color: var(--text-secondary);
+    }
+
+    & :global(h1),
+    & :global(h2),
+    & :global(h3),
+    & :global(h4),
+    & :global(h5),
+    & :global(h6) {
+      margin: var(--space-xl) 0px var(--space-sm) 0px;
+      align-items: center;
+      display: flex;
+      color: var(--text-primary);
+    }
+
+    & :global(p),
+    & :global(ol),
+    & :global(ul) {
+      margin: var(--space-sm) 0px var(--space-sm) 0px;
+      font-size: var(--font-size);
+    }
+
+    & :global(mark) {
+      background: var(--accent-orange);
+      color: var(--bg-primary);
+      padding: 0px 2px 0px 2px;
+    }
+
+    & :global(a) {
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      text-underline-offset: 2px;
+      color: var(--accent-blue);
+      transition: text-decoration-color 0.25s ease-out;
+    }
+
+    & :global(a:hover) {
+      text-decoration-color: var(--accent-blue);
+    }
+
+    & :global(table) {
+      border: 1px solid var(--border);
+      background-color: var(--bg-tertiary);
+      border-radius: var(--radius);
+      margin: var(--space-sm) 0px var(--space-sm) 0px;
+      border-spacing: 0px;
+      width: 100%;
+    }
+
+    & :global(table th) {
+      background-color: var(--border);
+      padding: var(--space-xs) 0px var(--space-xs) 0px;
+      border: none;
+      color: var(--text-primary);
+    }
+
+    & :global(table td) {
+      padding: 8px var(--space-sm) 8px var(--space-sm);
+      border-bottom: 1px solid var(--border);
+    }
+
+    & :global(table td:not(:last-child)) {
+      border-right: 1px solid var(--border);
+    }
+
+    & :global(table tr:nth-child(even) td) {
+      background-color: var(--bg-secondary);
+    }
+
+    & :global(table tr:last-child td) {
+      border-bottom: none !important;
+    }
+
+    & :global(img) {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-width: 100%;
+    }
+
+    & :global(figure) {
+      text-align: center;
+    }
+
+    & :global(figcaption) {
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    & :global(ol),
+    & :global(ul) {
+      margin-left: 2rem;
+    }
+
+    & :global(blockquote) {
+      border-left: 2px solid var(--accent-blue);
+      background-color: var(--bg-code);
+      padding: var(--space-xs) var(--space-sm) var(--space-xs) var(--space-sm);
+    }
+
+    & :global(blockquote p) {
+      margin: 0px;
+    }
+
+    & > .copyright {
+      border-top: 1px solid rgba(194, 200, 204, 0.1);
+      color: rgba(194, 200, 204, 0.4);
+      padding-top: 8px;
+      font-size: 10px;
+
+      & > a {
+        color: var(--text-muted);
+        text-decoration: none;
+      }
+    }
+  }
+</style>

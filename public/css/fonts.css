@@ -11,3 +11,17 @@
   font-weight: 100 900;
   font-style: italic;
 }
+
+@font-face {
+  font-family: "Ubuntu Sans Mono";
+  src: url("../fonts/UbuntuSansMono-VariableFont_wght.ttf") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Ubuntu Sans Mono";
+  src: url("../fonts/UbuntuSansMono-Italic-VariableFont_wght.ttf") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: italic;
+}
