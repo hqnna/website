@@ -6,7 +6,7 @@ const posts = Object.values(import.meta.glob('../../content/*.mdx', {
 })).sort((a, b) => {
   const firstDate = new Date(a.frontmatter.date).valueOf();
   const secondDate = new Date(b.frontmatter.date).valueOf();
-  return secondDate - firstDate; // Note: reversed for newest first
+  return secondDate - firstDate;
 });
 
 const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
