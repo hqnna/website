@@ -1,40 +1,50 @@
 ---
+import { Image } from 'astro:assets';
 import Page from '../layouts/Page.astro';
+
+import Avatar from '../images/avatar.png';
+import EmojiIcon from '../images/emoji.svg';
+import EnvelopeIcon from '../images/envelope.svg';
+import FileUserIcon from '../images/file-user.svg';
+import GamesIcon from '../images/games.svg';
+import GitLabIcon from '../images/gitlab.svg';
+import HeartIcon from '../images/heart.svg';
+import UserLockIcon from '../images/user-lock.svg';
 
 const links = [
   {
     name: 'GitLab',
-    icon: 'gitlab',
+    icon: GitLabIcon,
     url: 'https://gitlab.com/hqnna',
   },
   {
     name: 'Emojis',
-    icon: 'emoji',
+    icon: EmojiIcon,
     url: 'https://discord.gg/qZQmTM5Skk',
   },
   {
     name: 'Steam',
-    icon: 'games',
+    icon: GamesIcon,
     url: 'https://steamcommunity.com/id/sapphicdoll',
   },
   {
     name: 'GPG Key',
-    icon: 'user-lock',
+    icon: UserLockIcon,
     url: '/files/key.txt',
   },
   {
     name: 'Resume',
-    icon: 'file-user',
+    icon: FileUserIcon,
     url: '/files/resume.pdf',
   },
   {
     name: 'Contact',
-    icon: 'envelope',
+    icon: EnvelopeIcon,
     url: 'mailto:me@hanna.lol',
   },
   {
     name: 'Donate',
-    icon: 'heart',
+    icon: HeartIcon,
     url: 'https://liberapay.com/hqnna',
   }
 ];
@@ -46,15 +56,15 @@ const links = [
   <div class="center">
     <div class="container">
       <div class="details">
-        <img src="/img/avatar.png" alt="avatar">
+        <Image src={Avatar} alt="avatar" loading="eager" />
         <div class="about">
           <h1>Hanna Rose</h1>
           <h2>Just your average software engineer</h2>
           <ul class="socials">
             {links.map(link => (
               <li>
-                <a draggable="false" href={link.url}>
-                  <img src={`/img/${link.icon}.svg`} alt={`${link.name} icon`}>
+                <a draggable="false" href={link.url} aria-label={link.name}>
+                  <link.icon class="icon" />
                   <span class="label">{link.name}</span>
                 </a>
               </li>
@@ -184,7 +194,7 @@ const links = [
         width: 32px;
         height: 32px;
 
-        & img {
+        & .icon {
           width: 16px;
         }
 
@@ -193,16 +203,8 @@ const links = [
           border-color: var(--accent-blue);
           color: var(--accent-blue);
 
-          & img {
-            filter:
-              brightness(0)
-              saturate(100%)
-              invert(70%)
-              sepia(37%)
-              saturate(4975%)
-              hue-rotate(200deg)
-              brightness(106%)
-              contrast(101%);
+          & .icon {
+            stroke: var(--accent-blue);
           }
         }
       }
