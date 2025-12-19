@@ -77,6 +77,10 @@ const links = [
 </Page>
 
 <style>
+  html > body {
+    overflow-y: hidden;
+  }
+
   .background {
     background-image: url("/img/background.jpg");
     background-position: center;
@@ -97,7 +101,7 @@ const links = [
     align-items: center;
 
     @media only screen and (max-width: 800px) {
-      padding-top: 24px;
+      padding-top: 20px;
       max-height: 100%;
     }
   }
