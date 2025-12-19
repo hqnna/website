@@ -36,7 +36,7 @@ const { Content, headings } = await post.render();
       <ul>
         {headings.filter(h => h.depth > 1 && h.depth < 4).map(h => (
           <li class={`depth-${h.depth}`}>
-            <a href={`#${h.slug}`}>{h.text}</a>
+            <a draggable="false" href={`#${h.slug}`}>{h.text}</a>
           </li>
         ))}
       </ul>
@@ -46,7 +46,7 @@ const { Content, headings } = await post.render();
       <Content />
       <p class="copyright">
         This article is licensed under the
-        <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
+        <a draggable="false" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
           CC BY-NC-ND 4.0
         </a>
         license.
@@ -331,6 +331,8 @@ const { Content, headings } = await post.render();
       text-underline-offset: 2px;
       color: var(--accent-blue);
       transition: text-decoration-color 0.25s ease-out;
+      -webkit-user-drag: none;
+      user-drag: none;
     }
 
     & :global(a:hover) {

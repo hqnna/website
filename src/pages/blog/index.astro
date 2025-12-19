@@ -32,7 +32,7 @@ const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
     <section>
       <ul class="posts">
         {posts.map((post) => (
-        <li><a href={`/blog/${post.slug}`}>
+        <li><a draggable="false" href={`/blog/${post.slug}`}>
           <div class="metadata">
             <h1>{post.data.title}</h1>
             <p>
