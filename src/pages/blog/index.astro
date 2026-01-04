@@ -4,18 +4,19 @@ import CalendarIcon from '../../images/calendar.svg';
 import Page from '../../layouts/Page.astro';
 
 const posts = (await getCollection('posts'))
-  .filter(post => !post.data.draft)
+  .filter((post) => !post.data.draft)
   .sort((a, b) => {
     const firstDate = new Date(a.data.date).valueOf();
     const secondDate = new Date(b.data.date).valueOf();
     return secondDate - firstDate;
   });
 
-const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
-  month: '2-digit',
-  day: '2-digit',
-  year: 'numeric'
-});
+const fmtDate = (date: Date) =>
+  new Date(date).toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+  });
 ---
 
 <Page title="Blog" desc="A list of all the blog posts I've written">

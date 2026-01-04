@@ -11,11 +11,12 @@ export async function getStaticPaths() {
   }));
 }
 
-const fmtDate = (date) => new Date(date).toLocaleString('en-US', {
-  month: '2-digit',
-  day: '2-digit',
-  year: 'numeric'
-});
+const fmtDate = (date: Date) =>
+  new Date(date).toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+  });
 
 const { post } = Astro.props;
 const { Content, headings } = await post.render();
