@@ -1,4 +1,4 @@
-# Website
+# website ![license] ![status]
 
 The source code of my personal website and blog, made using the [Astro] static
 site generator.
@@ -12,6 +12,9 @@ Due to the nature of the content in this repository, it uses multiple licenses.
 - All fonts that are used are licensed under the [OFL-1.1] license.
 
 All files that are in this repository must follow these licenses.
+
+[status]: https://badge.hanna.lol/build/hanna/website/main
+[license]: https://badge.hanna.lol/license/MPL-2.0
 
 [astro]: https://astro.build
 [mpl-2.0]: https://choosealicense.com/licenses/mpl-2.0
