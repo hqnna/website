@@ -1,4 +1,4 @@
-name: deploy
+name: pages
 
 on:
   push:
@@ -7,10 +7,12 @@ on:
     paths:
       - src/**/*
       - public/**/*
-      - .forgejo/workflows/deploy.yml
+      - .forgejo/workflows/pages.yml
       - astro.config.mjs
       - tsconfig.json
       - package.json
+      - flake.nix
+      - flake.lock
       - bun.lock
 
 jobs:
