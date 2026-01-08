@@ -18,6 +18,7 @@ on:
 jobs:
   build:
     runs-on: trixie
+    timeout-minutes: 5
     env:
       TERM: dumb
       NIX_INSTALLER_INIT: "none"
@@ -43,6 +44,7 @@ jobs:
     runs-on: trixie
     env: { TERM: "dumb" }
     container: { image: "node:current" }
+    timeout-minutes: 5
     steps:
       - name: Download static files
         uses: https://code.forgejo.org/forgejo/download-artifact@v7
