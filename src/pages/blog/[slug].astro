@@ -89,30 +89,32 @@ const { Content, headings } = await post.render();
     });
   });
 
-  const tocMap = new Map<string, HTMLAnchorElement>();
+  if (!mobile) {
+    const tocMap = new Map<string, HTMLAnchorElement>();
 
-  tocLinks?.forEach((link) => {
-    const href = link.getAttribute("href")?.slice(1);
-    if (href) tocMap.set(href, link);
-  });
+    tocLinks?.forEach((link) => {
+      const href = link.getAttribute("href")?.slice(1);
+      if (href) tocMap.set(href, link);
+    });
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        tocLinks?.forEach((link) => link.classList.remove("active"));
-        tocMap.get(entry.target.id)?.classList.add("active");
-      });
-    },
-    {
-      rootMargin: "-80px 0px -70% 0px",
-      threshold: 0,
-    },
-  );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          tocLinks?.forEach((link) => link.classList.remove("active"));
+          tocMap.get(entry.target.id)?.classList.add("active");
+        });
+      },
+      {
+        rootMargin: "-80px 0px -70% 0px",
+        threshold: 0,
+      },
+    );
 
-  document
-    .querySelectorAll(".article h2, .article h3")
-    .forEach((h) => observer.observe(h));
+    document
+      .querySelectorAll(".article h2, .article h3")
+      .forEach((h) => observer.observe(h));
+  }
 </script>
 
 <style>
