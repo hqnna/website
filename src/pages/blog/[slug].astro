@@ -36,17 +36,27 @@ const { Content, headings } = await post.render();
       <details class="toc" open>
         <summary>Table of Contents</summary>
         <ul>
-          {headings.filter(h => h.depth > 1 && h.depth < 4).map(h => (
-            <li class={`depth-${h.depth}`}>
-              <a draggable="false" href={`#${h.slug}`}>{h.text}</a>
-            </li>
-          ))}
+          {
+            headings
+              .filter((h) => h.depth > 1 && h.depth < 4)
+              .map((h) => (
+                <li class={`depth-${h.depth}`}>
+                  <a draggable="false" href={`#${h.slug}`}>
+                    {h.text}
+                  </a>
+                </li>
+              ))
+          }
         </ul>
       </details>
       <p class="copyright">
         This blog post is licensed under
-        <a draggable="false" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
-          CC BY-NC-ND 4.0</a>.
+        <a
+          draggable="false"
+          href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
+        >
+          CC BY-NC-ND 4.0</a
+        >.
       </p>
     </div>
 
@@ -56,50 +66,53 @@ const { Content, headings } = await post.render();
 
     <p class="copyright mobile">
       This blog post is licensed under
-      <a draggable="false" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">
-        CC BY-NC-ND 4.0</a>.
+      <a
+        draggable="false"
+        href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
+      >
+        CC BY-NC-ND 4.0</a
+      >.
     </p>
   </div>
 </Page>
 
 <script>
-  const toc = document.querySelector('.toc');
+  const toc = document.querySelector(".toc") as HTMLDetailsElement | null;
+  const tocLinks = toc?.querySelectorAll("a");
+  const mobile = window.innerWidth <= 1500;
 
-  if (toc instanceof HTMLDetailsElement && window.innerWidth <= 1500) {
-    toc.open = false;
-  }
+  if (mobile && toc) toc.open = false;
 
-  const tocLinks = toc?.querySelectorAll('a');
-
-  tocLinks?.forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth <= 1500 && toc instanceof HTMLDetailsElement) {
-        toc.open = false;
-      }
+  tocLinks?.forEach((link) => {
+    link.addEventListener("click", () => {
+      if (mobile && toc) toc.open = false;
     });
   });
 
-  const headings = document.querySelectorAll('.article h2, .article h3');
   const tocMap = new Map<string, HTMLAnchorElement>();
 
-  tocLinks?.forEach(link => {
-    const href = link.getAttribute('href');
-    if (href) tocMap.set(href.slice(1), link);
+  tocLinks?.forEach((link) => {
+    const href = link.getAttribute("href")?.slice(1);
+    if (href) tocMap.set(href, link);
   });
 
   const observer = new IntersectionObserver(
     (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) {
-          tocLinks?.forEach(link => link.classList.remove('active'));
-          tocMap.get(entry.target.id)?.classList.add('active');
-        }
-      }
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        tocLinks?.forEach((link) => link.classList.remove("active"));
+        tocMap.get(entry.target.id)?.classList.add("active");
+      });
     },
-    { rootMargin: '-80px 0px -70% 0px', threshold: 0 }
+    {
+      rootMargin: "-80px 0px -70% 0px",
+      threshold: 0,
+    },
   );
 
-  headings.forEach(heading => observer.observe(heading));
+  document
+    .querySelectorAll(".article h2, .article h3")
+    .forEach((h) => observer.observe(h));
 </script>
 
 <style>
@@ -266,7 +279,7 @@ const { Content, headings } = await post.render();
 
         & summary::after {
           display: block;
-          content: '▲';
+          content: "▲";
           position: absolute;
           right: 0;
           top: 50%;
