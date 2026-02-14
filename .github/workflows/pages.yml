@@ -43,6 +43,7 @@ jobs:
     steps:
       - name: Download static website files
         uses: actions/download-artifact@v7.0.0
+        with: { name: 'website-${{ github.sha }}', path: 'dist' }
       - name: Deploy website to cloudflare
         uses: cloudflare/wrangler-action@v3.14.1
         with:
