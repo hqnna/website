@@ -1,0 +1,51 @@
+name: pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - src/**/*
+      - public/**/*
+      - .github/workflows/pages.yml
+      - astro.config.mjs
+      - tsconfig.json
+      - package.json
+      - flake.lock
+      - flake.nix
+      - bun.lock
+
+jobs:
+  build:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6.0.2
+      - name: Setup lix toolchain
+        uses: canidae-solutions/lix-quick-install-action@v4
+      - name: Setup nix actions cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+      - name: Install bun dependencies
+        run: nix develop -c bun install --frozen-lockfile
+      - name: Build static website files
+        run: nix develop -c bun run build
+      - name: Upload static website files
+        uses: actions/upload-artifact@v6.0.0
+        with:
+          name: website-${{ github.sha }}
+          retention-days: 1
+          path: dist
+  deploy:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - name: Download static website files
+        uses: actions/download-artifact@v7.0.0
+      - name: Deploy website to cloudflare
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=website
