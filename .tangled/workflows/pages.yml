@@ -7,6 +7,10 @@ when:
 dependencies:
   nixpkgs/nixpkgs-unstable: ['bun']
 
+environment:
+  TERM: 'dumb'
+  NO_COLOR: 'true'
+
 steps:
   - name: 'Install dependencies'
     command: bun install --frozen-lockfile
