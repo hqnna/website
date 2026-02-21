@@ -7,11 +7,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "format": "biome format --write",
+    "deploy": "wrangler pages deploy dist --project-name=website",
     "lint": "biome lint --write"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@biomejs/biome": "^2.3.9",
     "astro": "^5.16.6"
+  },
+  "devDependencies": {
+    "wrangler": "4.67.0"
   }
 }
