@@ -1,7 +1,4 @@
-# website ![license] ![status]
-
-[status]: https://img.shields.io/github/actions/workflow/status/hqnna/website/pages.yml?label=build&labelColor=4a414e
-[license]: https://img.shields.io/github/license/hqnna/website?labelColor=4a414e&color=3373cc
+# website 
 
 The source code of my personal website and blog, made using the [Astro] static
 site generator.
