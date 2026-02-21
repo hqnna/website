@@ -1,0 +1,17 @@
+engine: 'nixery'
+
+when:
+  - event: ['push']
+    branch: ['main']
+
+dependencies:
+  nixpkgs/nixpkgs-unstable: ['bun']
+
+steps:
+  - name: 'Install dependencies'
+    command: bun install --frozen-lockfile
+  - name: 'Build static website files'
+    command: bun run build
+  - name: 'Deploy files to cloudflare'
+    command: bun run deploy
+
