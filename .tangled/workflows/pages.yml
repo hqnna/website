@@ -18,4 +18,7 @@ steps:
     command: bun run build
   - name: 'Deploy files to cloudflare'
     command: bun run deploy
+    environment:
+      CLOUDFLARE_ACCOUNT_ID: $CLOUDFLARE_ACCOUNT_ID
+      CLOUDFLARE_API_TOKEN: $CLOUDFLARE_API_TOKEN
 
