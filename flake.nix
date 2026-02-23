@@ -10,7 +10,10 @@
 
       perSystem = { pkgs, ... }: {
         devShells.default = pkgs.mkShell {
-          nativeBuildInputs = with pkgs; [ bun ];
+          nativeBuildInputs = with pkgs; [
+            nodejs_latest
+            pnpm
+          ];
         };
       };
     };

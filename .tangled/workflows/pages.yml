@@ -5,7 +5,10 @@ when:
     branch: ['main']
 
 dependencies:
-  nixpkgs/nixpkgs-unstable: ['bun', 'nodejs']
+  nixpkgs/nixpkgs-unstable:
+    - 'nodejs_latest'
+    - 'uutils-sed'
+    - 'pnpm'
 
 environment:
   TERM: 'dumb'
@@ -13,8 +16,8 @@ environment:
 
 steps:
   - name: 'Install dependencies'
-    command: bun install --frozen-lockfile
+    command: pnpm install --frozen-lockfile
   - name: 'Build static website files'
-    command: bun run build
+    command: pnpm run build
   - name: 'Deploy files to cloudflare'
-    command: bun run deploy
+    command: pnpm run deploy
