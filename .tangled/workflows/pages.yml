@@ -10,7 +10,6 @@ dependencies:
 environment:
   TERM: 'dumb'
   NO_COLOR: 'true'
-  WRANGLER_LOG: 'debug'
 
 steps:
   - name: 'Install dependencies'
