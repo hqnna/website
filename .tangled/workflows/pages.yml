@@ -5,11 +5,12 @@ when:
     branch: ['main']
 
 dependencies:
-  nixpkgs/nixpkgs-unstable: ['bun']
+  nixpkgs/nixpkgs-unstable: ['bun', 'nodejs']
 
 environment:
   TERM: 'dumb'
   NO_COLOR: 'true'
+  WRANGLER_LOG: 'debug'
 
 steps:
   - name: 'Install dependencies'
@@ -18,7 +19,3 @@ steps:
     command: bun run build
   - name: 'Deploy files to cloudflare'
     command: bun run deploy
-    environment:
-      CLOUDFLARE_ACCOUNT_ID: $CLOUDFLARE_ACCOUNT_ID
-      CLOUDFLARE_API_TOKEN: $CLOUDFLARE_API_TOKEN
-
