@@ -20,4 +20,4 @@ steps:
   - name: 'Build static website files'
     command: pnpm run build
   - name: 'Deploy files to cloudflare'
-    command: pnpm run deploy
+    command: pnpm run deploy --branch main
