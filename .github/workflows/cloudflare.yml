@@ -25,7 +25,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Setup lix toolchain
-        uses: handelsblattmediagroup/lix-quick-install-action@v3
+        uses: handelsblattmediagroup/lix-quick-install-action@v3.0.4
       - name: Setup lix store cache
         uses: DeterminateSystems/magic-nix-cache-action@v13
       - name: Build static files
