@@ -28,6 +28,8 @@ jobs:
         uses: handelsblattmediagroup/lix-quick-install-action@v3.0.4
       - name: Setup lix store cache
         uses: DeterminateSystems/magic-nix-cache-action@v13
+      - name: Install dependencies
+        run: nix develop -c pnpm install --frozen-lockfile
       - name: Build static files
         run: nix develop -c pnpm run build
       - name: Upload static files
