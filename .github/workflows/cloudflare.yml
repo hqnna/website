@@ -1,0 +1,49 @@
+name: cloudflare
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/cloudflare.yml
+      - astro.config.mjs
+      - pnpm-lock.yaml
+      - flake.lock
+      - flake.nix
+      - public/**
+      - src/**
+
+env:
+  TERM: 'dumb'
+  NO_COLOR: 'true'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup lix toolchain
+        uses: handelsblattmediagroup/lix-quick-install-action@v3
+      - name: Setup lix store cache
+        uses: DeterminateSystems/magic-nix-cache-action@v13
+      - name: Build static files
+        run: nix develop -c pnpm run build
+      - name: Upload static files
+        uses: actions/upload-artifact@v4
+        with: { name: 'website-${{ github.sha }}', path: 'dist/' }
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [build]
+    steps:
+      - name: Download static files
+        uses: actions/download-artifact@v4
+        with: { name: 'website-${{ github.sha }}', path: 'dist/' }
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=website
